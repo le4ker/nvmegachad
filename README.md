@@ -96,8 +96,6 @@ nvim
 
 ### Try Without Overwriting Your Config
 
-> ⚠️ Always review the code before installing a configuration.
-
 ```sh
 git clone git@github.com:le4ker/NvMegaChad ~/.config/le4ker/NvMegaChad
 cd ~/.config/le4ker/NvMegaChad
@@ -156,6 +154,6 @@ format:
 - `fix(lsp): resolve null reference error`
 - `docs: update README`
 
-## 📄 License
+## License
 
 See [LICENSE](LICENSE) for details.
