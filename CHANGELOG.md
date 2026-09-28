@@ -1,3 +1,45 @@
+## [2.16.0](https://github.com/le4ker/nvmegachad/compare/v2.15.0...v2.16.0) (2026-09-28)
+
+### ✨ Features
+
+* **codecompanion:** authenticate via Pro OAuth token from macOS Keychain ([764ca0b](https://github.com/le4ker/nvmegachad/commit/764ca0bb8fc3fe64e2b0734d1170fc4d8470fc1a))
+* **codecompanion:** prefer ANTHROPIC_API_KEY over Keychain OAuth token ([2032d9f](https://github.com/le4ker/nvmegachad/commit/2032d9fcfe020461f921e0203d791828028e06d3))
+* **completion:** configure native LSP completion UI ([97a79f1](https://github.com/le4ker/nvmegachad/commit/97a79f18a89a77a0495f26402a311d3114bd5de9))
+* **lsp:** add Scala support via nvim-metals and fix lua/lsp config loading ([f444c69](https://github.com/le4ker/nvmegachad/commit/f444c699731c9de66b1a452b0a21c81857c6975f))
+* mapping for LSP completion ([cb73326](https://github.com/le4ker/nvmegachad/commit/cb733268230fcd139dda2e1cd3fc13a94373c0c5))
+* **mappings:** add toggle to zoom CodeCompanion chat window ([777a440](https://github.com/le4ker/nvmegachad/commit/777a440854ec518b59ae4d4bb3d58772b0c3c4bf))
+
+### 🐛 Bug Fixes
+
+* **blink:** switch keymap preset from super-tab to manual bindings ([fcda26a](https://github.com/le4ker/nvmegachad/commit/fcda26a54965fceba198c8a81d987b07ae8e252b))
+* **codecompanion:** remove inline adapter — not supported for non-HTTP adapters ([67c37d3](https://github.com/le4ker/nvmegachad/commit/67c37d36cf8863f4dac075c57c7f24de77ae8ce4))
+* **lsp:** shellescape poetry_root in system() calls ([5bcee47](https://github.com/le4ker/nvmegachad/commit/5bcee478e5ce2941152a65c95d97de6a8ded0036))
+* **mappings:** remove stale inline assist keybinding ([89879de](https://github.com/le4ker/nvmegachad/commit/89879deb9cce52783a8613961448618f39acc097))
+* **nvim:** switch to blink.cmp for LSP autotrigger ([e17059e](https://github.com/le4ker/nvmegachad/commit/e17059e7e6dd6102e4b767f83591e4090bd2722d))
+* **treesitter:** enable highlight module for syntax highlighting ([1a6e348](https://github.com/le4ker/nvmegachad/commit/1a6e3484210b3020b1627be24a1817312c6bf142))
+* **treesitter:** switch to main branch for Neovim 0.12.2 compatibility ([50da03c](https://github.com/le4ker/nvmegachad/commit/50da03cdb0e05a00dbae7ee287dc1a2e55764516))
+
+### 🔧 Refactoring
+
+* **lsp:** move per-server configs from lua/lsp/ to lsp/ ([1ad0828](https://github.com/le4ker/nvmegachad/commit/1ad0828765494e6ab3ad8d151e0221cba3e7d65a))
+
+### 📚 Documentation
+
+* update playground/README.md ([17d2865](https://github.com/le4ker/nvmegachad/commit/17d286516287fc9b64c98481a330c1f63f86943b))
+
+### 🏠 Chores
+
+* merge branch 'develop' ([98625de](https://github.com/le4ker/nvmegachad/commit/98625de3c42057650144ff39964a66450a1099a9))
+* **plugins:** update lazy-lock.json ([fe4efa6](https://github.com/le4ker/nvmegachad/commit/fe4efa6417e7d3c5e3866bd9b90d8cf7731712da))
+* **plugins:** update lazy-lock.json ([3a79729](https://github.com/le4ker/nvmegachad/commit/3a7972911bf9805b1752c0ca6426d71a5d841709))
+* **plugins:** update lazy-lock.json ([6131a67](https://github.com/le4ker/nvmegachad/commit/6131a675cfb6074f1e5260574ab4d57d2be13dcd))
+* **plugins:** update lazy-lock.json ([a706694](https://github.com/le4ker/nvmegachad/commit/a706694dfacfd83a67c92048b33c1d4509290384))
+* **plugins:** update lazy-lock.json ([d923c4c](https://github.com/le4ker/nvmegachad/commit/d923c4cf8da15075474aba9a5da165b51b1c5a51))
+* **plugins:** update lazy-lock.json ([1672ff4](https://github.com/le4ker/nvmegachad/commit/1672ff4524268b69b77ce6f88a0e439ec4586569))
+* **plugins:** update lazy-lock.json ([c0c3093](https://github.com/le4ker/nvmegachad/commit/c0c309311387db9ca2e494787b6972fc8c838212))
+* **plugins:** update lazy-lock.json ([f4487e9](https://github.com/le4ker/nvmegachad/commit/f4487e9aaf201e3575ea754659ef9c5242388818))
+* **plugins:** update lazy-lock.json ([1ca9170](https://github.com/le4ker/nvmegachad/commit/1ca917003c3207de2205b4273888b7660880dffb))
+
 ## [2.15.0](https://github.com/le4ker/NvMegaChad/compare/v2.14.0...v2.15.0) (2026-05-17)
 
 ### ✨ Features
