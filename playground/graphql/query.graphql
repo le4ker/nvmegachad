@@ -1,0 +1,1 @@
+query GetUser($id:ID!){user(id:$id){id name friends{id name}}}

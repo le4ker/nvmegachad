@@ -1,0 +1,9 @@
+server:
+    host:   localhost
+    ports: [8000,8001]
+    tls: {enabled: true,   cert: /tmp/cert.pem}
+items:
+  - name: a
+    value:   1
+  -   name: b
+      value: 2

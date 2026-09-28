@@ -1,0 +1,7 @@
+title="Playground"
+[owner]
+name  =  "Ada"
+ports=[8000,8001]
+[database]
+enabled=true
+   connection_max = 5000

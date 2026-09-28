@@ -57,16 +57,6 @@ end, { desc = "Buffer Go To Previous" })
 map("n", "<leader>x", function()
   require("nvchad.tabufline").close_buffer()
 end, { desc = "Buffer Close" })
-map({ "i", "s" }, "<Tab>", function()
-  if vim.fn.pumvisible() == 1 then
-    return "<C-n>"
-  elseif vim.snippet.active { direction = 1 } then
-    vim.snippet.jump(1)
-    return ""
-  else
-    return "<Tab>"
-  end
-end, { expr = true, silent = true, desc = "General Next Completion" })
 
 map({ "i", "s" }, "<S-Tab>", function()
   if vim.fn.pumvisible() == 1 then
@@ -78,14 +68,6 @@ map({ "i", "s" }, "<S-Tab>", function()
     return "<S-Tab>"
   end
 end, { expr = true, silent = true, desc = "General Previous Completion" })
-
-map("i", "<CR>", function()
-  if vim.fn.pumvisible() == 1 then
-    return "<C-y>"
-  else
-    return "<CR>"
-  end
-end, { expr = true, silent = true, desc = "General Accept Completion" })
 
 -- NvimTree
 map("n", "<C-n>", "<cmd>NvimTreeToggle<CR>", { desc = "Explorer Toggle", silent = true })
@@ -162,5 +144,10 @@ end, { desc = "DAP Toggle UI" })
 map("n", "<leader>cc", "<cmd>CodeCompanionChat<CR>", { desc = "AI Open Chat", silent = true })
 map("n", "<leader>cct", "<cmd>CodeCompanionChat Toggle<CR>", { desc = "AI Toggle Chat", silent = true })
 map("n", "<leader>cca", "<cmd>CodeCompanionActions<CR>", { desc = "AI Actions", silent = true })
-map({ "n", "v" }, "<leader>ci", "<cmd>CodeCompanion<CR>", { desc = "AI Inline Assist", silent = true })
 map("v", "<leader>cc", "<cmd>CodeCompanionChat<CR>", { desc = "AI Chat With Selection", silent = true })
+
+local cc_zoomed = false
+map("n", "<leader>ccz", function()
+  vim.cmd(cc_zoomed and "wincmd =" or "wincmd |")
+  cc_zoomed = not cc_zoomed
+end, { desc = "AI Zoom Chat Window" })

@@ -12,7 +12,7 @@ return {
     local util = require "lspconfig.util"
     local poetry_root = util.root_pattern("poetry.lock", "pyproject.toml")(config.root_dir)
     if poetry_root then
-      local result = vim.fn.system("cd " .. poetry_root .. " && poetry env info -p 2>/dev/null")
+      local result = vim.fn.system("cd " .. vim.fn.shellescape(poetry_root) .. " && poetry env info -p 2>/dev/null")
       if vim.v.shell_error == 0 then
         local venv = vim.fn.trim(result)
         if venv ~= "" then

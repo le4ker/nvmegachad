@@ -1,14 +1,8 @@
 return {
   "nvim-treesitter/nvim-treesitter",
-  -- FIXME: nvim-treesitter moved highlight queries into a runtime/ subdirectory,
-  -- but Lazy.nvim only adds the plugin root to rtp. Without this, only the 7
-  -- languages with Neovim built-in queries (c, lua, markdown, markdown_inline,
-  -- query, vim, vimdoc) get syntax highlighting. Remove once Lazy.nvim or
-  -- nvim-treesitter resolves this upstream.
-  init = function()
-    vim.opt.rtp:prepend(vim.fs.joinpath(vim.fn.stdpath "data" --[[@as string]], "lazy", "nvim-treesitter", "runtime"))
-  end,
+  branch = "main",
   opts = {
+    highlight = { enable = true },
     ensure_installed = {
       "bash",
       "c",

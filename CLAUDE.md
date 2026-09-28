@@ -16,7 +16,7 @@ lua/
   unmappings.lua    # Removes conflicting NvChad defaults via safe_unmap()
   plugins/          # Lazy.nvim plugin specs — one file per plugin
   configs/          # Plugin setup — called by the corresponding plugin spec
-  lsp/              # Per-server LSP configs loaded by nvim-lspconfig
+lsp/                # Per-server LSP configs loaded by Neovim (runtimepath)
 ```
 
 ## Code Conventions
@@ -44,8 +44,8 @@ Do not put setup logic in the plugin spec file.
 
 - Server list lives in `lua/configs/lspconfig.lua` — add new servers to the
   `servers` table and call `vim.lsp.enable(servers)`
-- Custom server config goes in `lua/lsp/<server_name>.lua` — return a table
-  merged by NvChad defaults
+- Custom server config goes in `lsp/<server_name>.lua` — return a table
+  merged with defaults by Neovim's native LSP loader
 - Minimal servers with no customisation still get a file returning `{}`
 
 ### Adding a New Language
@@ -53,7 +53,7 @@ Do not put setup logic in the plugin spec file.
 When adding support for a new language, update all of the following:
 
 1. `lua/configs/lspconfig.lua` — add the LSP server name to `servers`
-2. `lua/lsp/<server>.lua` — create server config file (even if `return {}`)
+2. `lsp/<server>.lua` — create server config file (even if `return {}`)
 3. `lua/configs/conform.lua` — add `filetype = { "formatter" }` entry
 4. `lua/configs/lint.lua` — add `filetype = { "linter" }` entry if applicable
 5. `lua/plugins/mason.lua` — add all tools to `ensure_installed`
@@ -104,7 +104,7 @@ Scopes should reflect the file/subsystem changed (e.g. `conform`, `lsp`,
 - **Poetry/venv auto-detection**: pyright and pylint both detect Poetry
   environments at runtime. Preserve this logic when modifying Python tooling.
 - **`lua_ls` exception**: `lua_ls` is listed in `lua/configs/lspconfig.lua` but
-  has no `lua/lsp/lua_ls.lua` file — it relies entirely on NvChad's built-in
+  has no `lsp/lua_ls.lua` file — it relies entirely on NvChad's built-in
   defaults. All other servers must have a corresponding config file.
 - **`disabled.lua` is the kill-switch**: to suppress any upstream NvChad plugin,
   add it to `lua/plugins/disabled.lua` with `enabled = false`. Do not delete or

@@ -1,6 +1,5 @@
 require("nvchad.configs.lspconfig").defaults()
 
--- LSP servers to enable
 local servers = {
   "bashls",
   "clangd",
@@ -20,10 +19,11 @@ local servers = {
   "yamlls",
 }
 
--- Enable inlay hints
 vim.lsp.inlay_hint.enable(true)
 
--- Enable native LSP completion
-require "configs.completion"
+-- merge blink.cmp's expanded capabilities into every server
+vim.lsp.config("*", {
+  capabilities = require("blink.cmp").get_lsp_capabilities(),
+})
 
 vim.lsp.enable(servers)
