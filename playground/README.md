@@ -8,8 +8,8 @@ a working setup visibly reacts.
 
 For each language, open the main file and check:
 
-1. **LSP attached**: `:LspInfo`, hover with `K`, go to definition into the
-   sibling file.
+1. **LSP attached**: `:checkhealth lsp`, hover with `K`, go to definition into
+   the sibling file.
 2. **Diagnostics**: the marked lint or type errors show up.
 3. **Format**: save or run the format mapping; the file should be rewritten
    cleanly.
