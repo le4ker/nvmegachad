@@ -1,0 +1,2 @@
+type User{id:ID! name:String! friends:[User!]!}
+type Query{user(id:ID!):User users:[User!]!}
