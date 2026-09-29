@@ -1,19 +1,19 @@
 # NvMegaChad
 
+![plugins](https://dotfyle.com/le4ker/nvmegachad/badges/plugins)
+![leader](https://dotfyle.com/le4ker/nvmegachad/badges/leaderkey)
+![lazy](https://dotfyle.com/le4ker/nvmegachad/badges/plugin-manager)
+
 ![Neovim](https://img.shields.io/badge/Neovim-0.11+-blueviolet?style=flat-square&logo=neovim)
 ![Lua](https://img.shields.io/badge/Made%20with-Lua-blue?style=flat-square&logo=lua)
 ![NvChad](https://img.shields.io/badge/Built%20on-NvChad-green?style=flat-square)
 ![GitHub license](https://img.shields.io/github/license/le4ker/NvMegaChad?style=flat-square)
 
-![plugins](https://dotfyle.com/le4ker/nvmegachad/badges/plugins)
-![leader](https://dotfyle.com/le4ker/nvmegachad/badges/leaderkey)
-![lazy](https://dotfyle.com/le4ker/nvmegachad/badges/plugin-manager)
-
 <p align="center">
   <img src=".github/images/megaman.jpeg" alt="megaman" width="512" style="border-radius: 16px" />
 </p>
 
-A batteries-included [Neovim](https://neovim.io/) configuration built on top of
+A batteries-included [Neovim](https://neovim.io/) configuration built on
 [NvChad](https://nvchad.com/). Designed with a minimal UI philosophy while
 providing comprehensive out-of-the-box support for modern development workflows.
 
@@ -23,10 +23,9 @@ providing comprehensive out-of-the-box support for modern development workflows.
 - **Multi-language Support** — 18 languages with LSP, formatting, and linting
 - **Debugging** — Integrated DAP support for Go and Python
 - **AI Assistant** — Built-in
-  [CodeCompanion](https://github.com/olimorris/codecompanion.nvim) with
-  [Claude Code](https://www.anthropic.com/claude-code) via
+  [Claude Code](https://www.anthropic.com/claude-code) support via
   [ACP](https://agentclientprotocol.com/)
-- **Markdown Preview** — Live preview for documentation workflows
+- **Markdown Preview** — Live preview of Markdown files
 - **Git Integration** — Visual commit history and diff tools
 
 ## Screenshots
