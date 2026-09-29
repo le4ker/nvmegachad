@@ -44,8 +44,8 @@ Do not put setup logic in the plugin spec file.
 
 - Server list lives in `lua/configs/lspconfig.lua` — add new servers to the
   `servers` table and call `vim.lsp.enable(servers)`
-- Custom server config goes in `lsp/<server_name>.lua` — return a table
-  merged with defaults by Neovim's native LSP loader
+- Custom server config goes in `lsp/<server_name>.lua` — return a table merged
+  with defaults by Neovim's native LSP loader
 - Minimal servers with no customisation still get a file returning `{}`
 
 ### Adding a New Language
@@ -93,16 +93,16 @@ Scopes should reflect the file/subsystem changed (e.g. `conform`, `lsp`,
 
 ## Key Design Decisions
 
-- **Native LSP completion** (Neovim 0.11+): nvim-cmp and friends are
-  intentionally disabled in `lua/plugins/disabled.lua`. Do not re-enable them.
-  Per-server completion is wired in `lua/configs/completion.lua` via an
-  `LspAttach` autocmd that calls `vim.lsp.completion.enable()`.
+- **Blink completion**: `blink.cmp` provides completion UI and keymaps. Keep
+  nvim-cmp and its completion sources disabled in `lua/plugins/disabled.lua`.
+  LSP capabilities are extended in `lua/configs/lspconfig.lua`.
 - **No null-ls**: formatting is handled by conform.nvim, linting by nvim-lint.
 - **Tab/`<S-Tab>` are overloaded**: they navigate buffers in normal mode and
   cycle completions / jump snippets in insert/select mode. Do not remap these
   without accounting for both behaviours.
-- **Poetry/venv auto-detection**: pyright and pylint both detect Poetry
-  environments at runtime. Preserve this logic when modifying Python tooling.
+- **Python environment detection**: pyright and pylint share
+  `lua/utils/python_env.lua`, preferring Poetry environments, then project-local
+  `.venv` environments. Preserve this logic when modifying Python tooling.
 - **`lua_ls` exception**: `lua_ls` is listed in `lua/configs/lspconfig.lua` but
   has no `lsp/lua_ls.lua` file — it relies entirely on NvChad's built-in
   defaults. All other servers must have a corresponding config file.
