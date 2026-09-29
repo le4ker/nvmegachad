@@ -1,3 +1,26 @@
+## [2.16.1](https://github.com/le4ker/nvmegachad/compare/v2.16.0...v2.16.1) (2026-09-29)
+
+### 🐛 Bug Fixes
+
+* **lint:** resolve nested Python environments ([668474d](https://github.com/le4ker/nvmegachad/commit/668474ddd58ecd6edfa02b1fc9f049ccfce6845e))
+* **Makefile:** remove linux and windows support ([babb489](https://github.com/le4ker/nvmegachad/commit/babb489580c24fb347f7ead78875f808f79a7c65))
+* **pyright:** enable workspace diagnostics ([81f4a3b](https://github.com/le4ker/nvmegachad/commit/81f4a3b60f81b060d0ae18c01bd1a627b6957535))
+* **python:** use project environment for Pyright and Pylint ([ef93e0c](https://github.com/le4ker/nvmegachad/commit/ef93e0ce4d1dc903632a1de471db6b9b94343917))
+* **treesitter:** use master compatible branch ([6263a2e](https://github.com/le4ker/nvmegachad/commit/6263a2ec33e33a791105d4cb47ec98b8cb75af77))
+
+### 📚 Documentation
+
+* update README.md ([3650ba4](https://github.com/le4ker/nvmegachad/commit/3650ba4584a68fddb3029e95392791c85e5346d8))
+
+### 🏠 Chores
+
+* add AGENTS.md ([4e32714](https://github.com/le4ker/nvmegachad/commit/4e32714b09f04bffedf98935da16ca95d232b33b))
+* **mappings:** cleanup mappings ([123b9fb](https://github.com/le4ker/nvmegachad/commit/123b9fbd33cf8dc4ae8020202fc9f08457af2f8a))
+* merge branch 'develop' ([bce2180](https://github.com/le4ker/nvmegachad/commit/bce2180c37a72729eecdfcb98a1d1a78e68c850e))
+* remove unused code ([3d94eb9](https://github.com/le4ker/nvmegachad/commit/3d94eb9ee5156223a0b582ebead8429ff42f72f2))
+* update AGENTS.md and CLAUDE.md ([918b0ab](https://github.com/le4ker/nvmegachad/commit/918b0ab8012a4c897230ead424563e800e379ce5))
+* update comment ([b089aff](https://github.com/le4ker/nvmegachad/commit/b089aff2fe1f9dc109f67cac1f04066f56a3fdbb))
+
 ## [2.16.0](https://github.com/le4ker/nvmegachad/compare/v2.15.0...v2.16.0) (2026-09-28)
 
 ### ✨ Features
