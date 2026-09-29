@@ -1,6 +1,6 @@
 return {
   "nvim-treesitter/nvim-treesitter",
-  branch = "main",
+  branch = "master",
   opts = {
     highlight = { enable = true },
     ensure_installed = {
