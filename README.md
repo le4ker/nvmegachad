@@ -74,8 +74,9 @@ providing comprehensive out-of-the-box support for modern development workflows.
 | [claude-agent-acp](https://github.com/zed-industries/claude-agent-acp)   | Latest  | ACP bridge for Claude Code      |
 | [Terraform](https://www.terraform.io/)                                   | Latest  | Optional, for Terraform support |
 
-> **Tip:** All dependencies can be installed automatically by running
-> `make install`
+> **Tip:** On macOS, `make install` automates installation of the system
+> dependencies. Install Claude Code separately. The Makefile installer is
+> macOS-only.
 
 ## Installation
 
