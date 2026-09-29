@@ -1,4 +1,4 @@
-# NvMegaChad — Claude Code Instructions
+# NvMegaChad — Codex Instructions
 
 ## Project Overview
 

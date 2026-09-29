@@ -1,4 +1,4 @@
--- Disable plugins that conflict with native LSP completion
+-- Disable the nvim-cmp completion stack; Blink is used instead
 return {
   { "hrsh7th/nvim-cmp", enabled = false },
   { "L3MON4D3/LuaSnip", enabled = false },

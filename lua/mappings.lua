@@ -1,25 +1,22 @@
 local map = vim.keymap.set
 
 -- General
-map("i", "<C-h>", "<Left>", { desc = "General Move Left" })
-map("i", "<C-l>", "<Right>", { desc = "General Move Right" })
-map("i", "<C-j>", "<Down>", { desc = "General Move Down" })
-map("i", "<C-k>", "<Up>", { desc = "General Move Up" })
 map("n", "<Esc>", "<cmd>noh<CR>", { desc = "General Clear Highlights", silent = true })
 map("n", "<C-h>", "<C-w>h", { desc = "General Switch Window Left" })
 map("n", "<C-l>", "<C-w>l", { desc = "General Switch Window Right" })
 map("n", "<C-j>", "<C-w>j", { desc = "General Switch Window Down" })
 map("n", "<C-k>", "<C-w>k", { desc = "General Switch Window Up" })
-map("n", "<leader>y", "<cmd>%y+<CR>", { desc = "General Copy Whole File", silent = true })
 map("n", "<S-u>", "<C-r>", { desc = "General Redo" })
 map("n", "<C-d>", "<C-d>zz", { desc = "General Move Half Page Down And Center" })
 map("n", "<C-u>", "<C-u>zz", { desc = "General Move Half Page Up And Center" })
-map("n", "<C-f>", "<C-f>zz", { desc = "General Move Full Page Down And Center" })
-map("n", "<C-b>", "<C-b>zz", { desc = "General Move Full Page Up And Center" })
 map("n", "<leader>s", "<cmd>w<CR>", { desc = "General Save File", silent = true })
 map("n", "<leader>q", "<cmd>q<CR>", { desc = "General Quit", silent = true })
+map("n", "<leader>y", "<cmd>%y+<CR>", { desc = "General Copy Whole File", silent = true })
 map("n", "<leader>v", "<cmd>vsplit<CR>", { desc = "General Vertical Split", silent = true })
+map("n", "<leader>pr", "<cmd>MarkdownPreviewToggle<CR>", { desc = "General Preview Markdown File", silent = true })
 map("n", "<leader>lu", "<cmd>Lazy update<CR>", { desc = "General Update Lazy Plugins", silent = true })
+map("n", "<leader>/", "gcc", { desc = "General Toggle Comment", remap = true })
+map("v", "<leader>/", "gc", { desc = "General Toggle Comment", remap = true })
 map("n", "<leader>mu", function()
   vim.notify("Updating Mason packages...", vim.log.levels.INFO)
   local registry = require "mason-registry"
@@ -33,20 +30,16 @@ map("n", "<leader>mu", function()
     end)
   end)
 end, { desc = "General Update Mason Packages", silent = true })
-map("n", "<leader>pr", "<cmd>MarkdownPreviewToggle<CR>", { desc = "General Preview Markdown File", silent = true })
 map("n", "<leader>tf", function()
   vim.g.format_on_save = not vim.g.format_on_save
   vim.notify(vim.g.format_on_save and "Format on save enabled" or "Format on save disabled")
 end, { desc = "General Toggle Format On Save" })
-map("n", "<leader>tn", function()
-  vim.wo.relativenumber = not vim.wo.relativenumber
-end, { desc = "General Toggle Relative Numbers" })
 map("n", "<leader>ti", function()
   vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+  vim.notify(vim.lsp.inlay_hint.is_enabled() and "Inlay hints enabled" or "Inlay hints disabled")
 end, { desc = "General Toggle Inlay Hints" })
-map("n", "<leader>/", "gcc", { desc = "General Toggle Comment", remap = true })
-map("v", "<leader>/", "gc", { desc = "General Toggle Comment", remap = true })
--- Tabufline
+
+-- Buffer Management
 map("n", "<leader>b", "<cmd>enew<CR>", { desc = "Buffer New", silent = true })
 map("n", "<tab>", function()
   require("nvchad.tabufline").next()
@@ -58,28 +51,17 @@ map("n", "<leader>x", function()
   require("nvchad.tabufline").close_buffer()
 end, { desc = "Buffer Close" })
 
-map({ "i", "s" }, "<S-Tab>", function()
-  if vim.fn.pumvisible() == 1 then
-    return "<C-p>"
-  elseif vim.snippet.active { direction = -1 } then
-    vim.snippet.jump(-1)
-    return ""
-  else
-    return "<S-Tab>"
-  end
-end, { expr = true, silent = true, desc = "General Previous Completion" })
-
--- NvimTree
-map("n", "<C-n>", "<cmd>NvimTreeToggle<CR>", { desc = "Explorer Toggle", silent = true })
+-- File Explorer
 map("n", "<leader>e", "<cmd>NvimTreeFocus<CR>", { desc = "Explorer Focus", silent = true })
+map("n", "<C-n>", "<cmd>NvimTreeToggle<CR>", { desc = "Explorer Toggle", silent = true })
 
 -- Telescope
+map("n", "<leader>ff", "<cmd>Telescope find_files<CR>", { desc = "Search Files", silent = true })
 map("n", "<leader>fw", "<cmd>Telescope live_grep<CR>", { desc = "Search Live grep", silent = true })
 map("n", "<leader>fb", "<cmd>Telescope buffers<CR>", { desc = "Search Buffers", silent = true })
 map("n", "<leader>cm", "<cmd>Telescope git_commits<CR>", { desc = "Search Git Commits", silent = true })
 map("n", "<leader>gt", "<cmd>Telescope git_status<CR>", { desc = "Search Git Status", silent = true })
-map("n", "<leader>pt", "<cmd>Telescope terms<CR>", { desc = "Search Hidden Terminals", silent = true })
-map("n", "<leader>ff", "<cmd>Telescope find_files<CR>", { desc = "Search Files", silent = true })
+map("n", "<leader>pt", "<cmd>Telescope terms<CR>", { desc = "Search Terminals", silent = true })
 map(
   "n",
   "<leader>fa",
@@ -88,6 +70,7 @@ map(
 )
 
 -- Terminal
+
 local function close_terminal()
   local buf = vim.api.nvim_get_current_buf()
   if vim.bo[buf].buftype == "terminal" then
@@ -95,6 +78,7 @@ local function close_terminal()
     vim.api.nvim_win_close(win, true)
   end
 end
+
 map("n", "<leader>h", function()
   require("nvchad.term").new { pos = "sp", size = 0.5 }
 end, { desc = "Terminal New Horizontal Terminal" })
@@ -140,7 +124,7 @@ map("n", "<leader>du", function()
   require("dapui").toggle()
 end, { desc = "DAP Toggle UI" })
 
--- CodeCompanion
+-- AI
 map("n", "<leader>cc", "<cmd>CodeCompanionChat<CR>", { desc = "AI Open Chat", silent = true })
 map("n", "<leader>cct", "<cmd>CodeCompanionChat Toggle<CR>", { desc = "AI Toggle Chat", silent = true })
 map("n", "<leader>cca", "<cmd>CodeCompanionActions<CR>", { desc = "AI Actions", silent = true })

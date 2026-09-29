@@ -1,0 +1,3 @@
+# Python virtual environments are local to this playground and its test cases
+**/.venv/
+**/__pycache__/
