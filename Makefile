@@ -12,6 +12,8 @@ install-macos:
 	brew install font-hack-nerd-font
 	# ripgrep
 	brew install ripgrep
+	# tree-sitter CLI for parser installation
+	brew install tree-sitter-cli
 	# claude code + acp bridge
 	@command -v claude >/dev/null 2>&1 || { echo "Claude Code not found. Please install it first: https://docs.anthropic.com/en/docs/claude-code/quickstart"; }
 	npm install -g @agentclientprotocol/claude-agent-acp

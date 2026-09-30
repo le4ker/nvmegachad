@@ -4,7 +4,7 @@
 ![leader](https://dotfyle.com/le4ker/nvmegachad/badges/leaderkey)
 ![lazy](https://dotfyle.com/le4ker/nvmegachad/badges/plugin-manager)
 
-![Neovim](https://img.shields.io/badge/Neovim-0.11+-blueviolet?style=flat-square&logo=neovim)
+![Neovim](https://img.shields.io/badge/Neovim-0.12+-blueviolet?style=flat-square&logo=neovim)
 ![Lua](https://img.shields.io/badge/Made%20with-Lua-blue?style=flat-square&logo=lua)
 ![NvChad](https://img.shields.io/badge/Built%20on-NvChad-green?style=flat-square)
 ![GitHub license](https://img.shields.io/github/license/le4ker/NvMegaChad?style=flat-square)
@@ -67,7 +67,7 @@ providing comprehensive out-of-the-box support for modern development workflows.
 
 | Dependency                                                               | Version | Notes                           |
 | ------------------------------------------------------------------------ | ------- | ------------------------------- |
-| [Neovim](https://github.com/neovim/neovim/releases/tag/v0.11.0)          | 0.11.0+ | Required                        |
+| [Neovim](https://github.com/neovim/neovim/releases/tag/v0.12.0)          | 0.12.0+ | Required                        |
 | [Nerd Font](https://www.nerdfonts.com/)                                  | Any     | Hack Nerd Font recommended      |
 | [Ripgrep](https://github.com/BurntSushi/ripgrep)                         | Latest  | For fuzzy finding               |
 | [Claude Code](https://docs.anthropic.com/en/docs/claude-code/quickstart) | Latest  | For AI assistant                |
@@ -75,8 +75,8 @@ providing comprehensive out-of-the-box support for modern development workflows.
 | [Terraform](https://www.terraform.io/)                                   | Latest  | Optional, for Terraform support |
 
 > **Tip:** On macOS, `make install` automates installation of the system
-> dependencies. Install Claude Code separately. The Makefile installer is
-> macOS-only.
+> dependencies, including the Tree-sitter CLI required to build parsers. Install
+> Claude Code separately. The Makefile installer is macOS-only.
 
 ## Installation
 

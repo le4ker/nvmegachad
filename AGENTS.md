@@ -3,7 +3,7 @@
 ## Project Overview
 
 NvMegaChad is a Neovim configuration built on **NvChad v2.5**, requiring
-**Neovim 0.11+**. All configuration is written in Lua and managed via
+**Neovim 0.12+**. All configuration is written in Lua and managed via
 **Lazy.nvim**.
 
 ## Repository Structure
