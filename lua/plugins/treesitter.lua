@@ -3,6 +3,6 @@ return {
   branch = "main",
   lazy = false,
   config = function()
-    require "configs.treesitter"
+    require "configs.plugins.treesitter"
   end,
 }
