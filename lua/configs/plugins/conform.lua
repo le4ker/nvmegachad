@@ -3,7 +3,7 @@ require("conform").setup {
     c = { "clang-format" },
     cpp = { "clang-format" },
     css = { "prettier" },
-    go = { "goimports", "gofmt" },
+    go = { "goimports" },
     graphql = { "prettier" },
     html = { "prettier" },
     javascript = { "prettier" },
