@@ -6,6 +6,7 @@ lint.linters_by_ft = {
   python = { "pylint" },
   make = { "checkmake" },
   terraform = { "tflint" },
+  dockerfile = { "hadolint" },
 }
 
 -- Configure pylint to use the active Python environment (Poetry venv → local .venv → system fallback)

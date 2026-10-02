@@ -36,6 +36,7 @@ return {
       "delve",
       "dockerfmt",
       "dockerfile-language-server",
+      "hadolint",
       "goimports",
       "golangci-lint",
       "gopls",
