@@ -4,6 +4,7 @@ lint.linters_by_ft = {
   go = { "golangcilint" },
   markdown = { "markdownlint" },
   python = { "pylint" },
+  sh = { "shellcheck" },
   make = { "checkmake" },
   terraform = { "tflint" },
   dockerfile = { "hadolint" },

@@ -56,6 +56,7 @@ return {
       "pyright",
       "rubocop",
       "ruby-lsp",
+      "shellcheck",
       "shfmt",
       "sql-formatter",
       "vim-language-server",
