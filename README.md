@@ -1,3 +1,5 @@
+<!-- markdownlint-disable MD033 -->
+
 # NvMegaChad
 
 ![plugins](https://dotfyle.com/le4ker/nvmegachad/badges/plugins)
@@ -13,9 +15,10 @@
   <img src=".github/images/megaman.jpeg" alt="megaman" width="512" style="border-radius: 16px" />
 </p>
 
-A batteries-included [Neovim](https://neovim.io/) configuration built on
-[NvChad](https://nvchad.com/). Designed with a minimal UI philosophy while
-providing comprehensive out-of-the-box support for modern development workflows.
+A batteries-included [Neovim](https://neovim.io/) configuration built on the
+[NvChad](https://nvchad.com/) distribution. Designed with a minimal UI
+philosophy while providing comprehensive out-of-the-box support for modern
+development workflows.
 
 ## Features
 
