@@ -11,7 +11,9 @@ lint.linters_by_ft = {
 
 -- Configure pylint to use the active Python environment (Poetry venv → local .venv → system fallback)
 lint.linters.pylint.cmd = function()
-  return require("utils.python_env").pylint_command(vim.api.nvim_buf_get_name(0))
+  return require("utils.python_env").pylint_command(
+    vim.api.nvim_buf_get_name(0)
+  )
 end
 
 local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })

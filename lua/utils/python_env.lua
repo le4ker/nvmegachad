@@ -51,7 +51,8 @@ local function poetry_environment(root)
     return nil
   end
 
-  local result = vim.fn.system("cd " .. vim.fn.shellescape(root) .. " && poetry env info -p 2>/dev/null")
+  local result =
+    vim.fn.system("cd " .. vim.fn.shellescape(root) .. " && poetry env info -p 2>/dev/null")
   local env = vim.fn.trim(result)
   if vim.v.shell_error == 0 and env ~= "" and vim.fn.isdirectory(env) == 1 then
     return env
