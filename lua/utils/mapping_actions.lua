@@ -1,29 +1,21 @@
 local M = {}
 
 local mason_registry = require "mason-registry"
-local mason_update_pending = false
-
-mason_registry:on("update:success", function()
-  if not mason_update_pending then
-    return
-  end
-
-  mason_update_pending = false
-  vim.schedule(function()
-    vim.cmd "Mason"
-    local key = vim.api.nvim_replace_termcodes("U", true, false, true)
-    vim.api.nvim_feedkeys(key, "m", false)
-  end)
-end)
 
 function M.update_mason_packages()
-  local mason_ui_loaded = package.loaded["mason.ui.instance"] ~= nil
-  mason_update_pending = true
   vim.cmd "Mason"
+  mason_registry.update(function(success)
+    if not success then
+      vim.notify("Mason registry update failed", vim.log.levels.ERROR)
+      return
+    end
 
-  if mason_ui_loaded then
-    mason_registry.update()
-  end
+    vim.schedule(function()
+      vim.cmd "Mason"
+      local key = vim.api.nvim_replace_termcodes("U", true, false, true)
+      vim.api.nvim_feedkeys(key, "m", false)
+    end)
+  end)
 end
 
 function M.toggle_format_on_save()
