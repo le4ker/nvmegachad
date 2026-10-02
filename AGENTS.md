@@ -1,4 +1,4 @@
-# NvMegaChad — Codex Instructions
+NvMegaChad — Codex Instructions
 
 ## Project Overview
 
@@ -23,8 +23,7 @@ lsp/                # Per-server LSP configs loaded by Neovim (runtimepath)
 
 ### Lua Style
 
-- Formatter: **stylua** — always run before committing (`column_width = 120`,
-  2-space indent, double quotes, no call parentheses)
+- Formatter: **stylua** — always run before committing
 - Local alias for keymaps: `local map = vim.keymap.set`
 - All `map()` calls must include a `desc` field following the pattern
   `"Category Action Title"` (e.g. `"LSP Go To Definition"`,
