@@ -1,3 +1,33 @@
+## [2.16.2](https://github.com/le4ker/nvmegachad/compare/v2.16.1...v2.16.2) (2026-10-02)
+
+### 🐛 Bug Fixes
+
+* **format:** align isort with black ([0374a76](https://github.com/le4ker/nvmegachad/commit/0374a7658b2c46110ae0995dc043ae779712fa3a))
+* **lint:** avoid duplicate Ruby RuboCop diagnostics ([c459552](https://github.com/le4ker/nvmegachad/commit/c4595520904161ad2c74f484f52e17e9cfbc4e4c))
+* **mappings:** update outdated Mason packages ([9ed5451](https://github.com/le4ker/nvmegachad/commit/9ed5451f00b582af866c1ca4c886a2d1d1e88f20))
+* **mason:** update registry on first keypress ([d18f2f5](https://github.com/le4ker/nvmegachad/commit/d18f2f515c262d3350a40953f0fc5290028f0b04))
+* **treesitter:** migrate to Neovim 0.12 and install CLI ([50d032b](https://github.com/le4ker/nvmegachad/commit/50d032b24aec350f6be93955da94eb5098a78f17))
+
+### 🔧 Refactoring
+
+* **agents:** remove formatting details from AGENTS.md and CLAUDE.md ([a0700b0](https://github.com/le4ker/nvmegachad/commit/a0700b0f0cb6c49a710de835822c494f0a089d97))
+* **build:** split macOS installer into focused targets ([1ab0374](https://github.com/le4ker/nvmegachad/commit/1ab0374ebfc73c70f43405f24de930ed9a88eeab))
+* **format:** remove redundant gofmt pass ([62cfeb7](https://github.com/le4ker/nvmegachad/commit/62cfeb776ef00e7d2fe07a5ec7fd038ba4a6e08f))
+* **mappings:** refactor mapping actions in utils ([93104d1](https://github.com/le4ker/nvmegachad/commit/93104d1724ca9880caf9908abcfe1f9a84c0fca6))
+* **plugins:** inline simple Gitsigns and DAP Go setup ([3e9bbb7](https://github.com/le4ker/nvmegachad/commit/3e9bbb722c8b38bef7b3c27268a489904c951595))
+* **plugins:** organize plugin configs under configs/plugins ([1ed1ba6](https://github.com/le4ker/nvmegachad/commit/1ed1ba6deb12f1ef6d902bd48dc403b91e831547))
+
+### 📚 Documentation
+
+* allow inline HTML in README ([b53b670](https://github.com/le4ker/nvmegachad/commit/b53b670c6dbf4df6ce97ccc0fb028a1de1fe415d))
+* **config:** correct config paths and setup guidance ([70e5f04](https://github.com/le4ker/nvmegachad/commit/70e5f0483e5961441daaae82b7754fb468b16049))
+
+### 🏠 Chores
+
+* **playground:** add ruby/.gitignore ([92aabb8](https://github.com/le4ker/nvmegachad/commit/92aabb825a8c2d30e81d6e4bed079110ff241478))
+* **plugins:** update lazy-lock.json ([26c8905](https://github.com/le4ker/nvmegachad/commit/26c8905c22c25db1147edd55d4b656c69a8bd6ed))
+* set Lua formating column width to 100 ([34a741e](https://github.com/le4ker/nvmegachad/commit/34a741e6b5edcf271071ac3d79c1301d7b26bfa2))
+
 ## [2.16.1](https://github.com/le4ker/nvmegachad/compare/v2.16.0...v2.16.1) (2026-09-29)
 
 ### 🐛 Bug Fixes
