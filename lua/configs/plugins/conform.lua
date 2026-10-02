@@ -3,7 +3,7 @@ require("conform").setup {
     c = { "clang-format" },
     cpp = { "clang-format" },
     css = { "prettier" },
-    go = { "goimports", "gofmt" },
+    go = { "goimports" },
     graphql = { "prettier" },
     html = { "prettier" },
     javascript = { "prettier" },
@@ -23,6 +23,11 @@ require("conform").setup {
     typescriptreact = { "prettier" },
     yaml = { "prettier" },
     zsh = { "shfmt" },
+  },
+  formatters = {
+    isort = {
+      prepend_args = { "--profile", "black" },
+    },
   },
   format_on_save = function()
     if not vim.g.format_on_save then

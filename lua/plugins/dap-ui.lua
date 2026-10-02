@@ -5,6 +5,6 @@ return {
     "nvim-neotest/nvim-nio",
   },
   config = function()
-    require "configs.dap-ui"
+    require "configs.plugins.dap-ui"
   end,
 }

@@ -1,10 +1,12 @@
+<!-- markdownlint-disable MD033 -->
+
 # NvMegaChad
 
 ![plugins](https://dotfyle.com/le4ker/nvmegachad/badges/plugins)
 ![leader](https://dotfyle.com/le4ker/nvmegachad/badges/leaderkey)
 ![lazy](https://dotfyle.com/le4ker/nvmegachad/badges/plugin-manager)
 
-![Neovim](https://img.shields.io/badge/Neovim-0.11+-blueviolet?style=flat-square&logo=neovim)
+![Neovim](https://img.shields.io/badge/Neovim-0.12+-blueviolet?style=flat-square&logo=neovim)
 ![Lua](https://img.shields.io/badge/Made%20with-Lua-blue?style=flat-square&logo=lua)
 ![NvChad](https://img.shields.io/badge/Built%20on-NvChad-green?style=flat-square)
 ![GitHub license](https://img.shields.io/github/license/le4ker/NvMegaChad?style=flat-square)
@@ -13,9 +15,10 @@
   <img src=".github/images/megaman.jpeg" alt="megaman" width="512" style="border-radius: 16px" />
 </p>
 
-A batteries-included [Neovim](https://neovim.io/) configuration built on
-[NvChad](https://nvchad.com/). Designed with a minimal UI philosophy while
-providing comprehensive out-of-the-box support for modern development workflows.
+A batteries-included [Neovim](https://neovim.io/) configuration built on the
+[NvChad](https://nvchad.com/) distribution. Designed with a minimal UI
+philosophy while providing comprehensive out-of-the-box support for modern
+development workflows.
 
 ## Features
 
@@ -67,7 +70,7 @@ providing comprehensive out-of-the-box support for modern development workflows.
 
 | Dependency                                                               | Version | Notes                           |
 | ------------------------------------------------------------------------ | ------- | ------------------------------- |
-| [Neovim](https://github.com/neovim/neovim/releases/tag/v0.11.0)          | 0.11.0+ | Required                        |
+| [Neovim](https://github.com/neovim/neovim/releases/tag/v0.12.0)          | 0.12.0+ | Required                        |
 | [Nerd Font](https://www.nerdfonts.com/)                                  | Any     | Hack Nerd Font recommended      |
 | [Ripgrep](https://github.com/BurntSushi/ripgrep)                         | Latest  | For fuzzy finding               |
 | [Claude Code](https://docs.anthropic.com/en/docs/claude-code/quickstart) | Latest  | For AI assistant                |
@@ -75,8 +78,8 @@ providing comprehensive out-of-the-box support for modern development workflows.
 | [Terraform](https://www.terraform.io/)                                   | Latest  | Optional, for Terraform support |
 
 > **Tip:** On macOS, `make install` automates installation of the system
-> dependencies. Install Claude Code separately. The Makefile installer is
-> macOS-only.
+> dependencies, including the Tree-sitter CLI required to build parsers. Install
+> Claude Code separately. The Makefile installer is macOS-only.
 
 ## Installation
 
@@ -107,7 +110,7 @@ NVIM_APPNAME=le4ker/NvMegaChad nvim
 
 | Language              | LSP                                                                                                                                      | Formatter                                                                        | Linter                                                     | Debugger                                        |
 | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | ---------------------------------------------------------- | ----------------------------------------------- |
-| Go                    | [gopls](https://pkg.go.dev/golang.org/x/tools/gopls)                                                                                     | gofmt, goimports                                                                 | [golangci-lint](https://golangci-lint.run/)                | [delve](https://github.com/go-delve/delve)      |
+| Go                    | [gopls](https://pkg.go.dev/golang.org/x/tools/gopls)                                                                                     | goimports                                                                        | [golangci-lint](https://golangci-lint.run/)                | [delve](https://github.com/go-delve/delve)      |
 | Python                | [pyright](https://github.com/microsoft/pyright)                                                                                          | [black](https://github.com/psf/black), [isort](https://github.com/PyCQA/isort)   | [pylint](https://pylint.org/)                              | [debugpy](https://github.com/microsoft/debugpy) |
 | C/C++                 | [clangd](https://clangd.llvm.org)                                                                                                        | [clang-format](https://www.kernel.org/doc/html/latest/process/clang-format.html) | —                                                          | —                                               |
 | Lua                   | [lua-language-server](https://github.com/LuaLS/lua-language-server)                                                                      | [stylua](https://github.com/JohnnyMorganz/StyLua)                                | —                                                          | —                                               |

@@ -3,5 +3,12 @@ return {
   dependencies = {
     "rcarriga/nvim-dap-ui",
   },
-  cmd = { "DapToggleBreakpoint", "DapContinue", "DapStepOver", "DapStepIn", "DapStepOut", "DapTerminate" },
+  cmd = {
+    "DapToggleBreakpoint",
+    "DapContinue",
+    "DapStepOver",
+    "DapStepIn",
+    "DapStepOut",
+    "DapTerminate",
+  },
 }
