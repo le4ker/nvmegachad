@@ -4,7 +4,6 @@ lint.linters_by_ft = {
   go = { "golangcilint" },
   markdown = { "markdownlint" },
   python = { "pylint" },
-  ruby = { "rubocop" },
   make = { "checkmake" },
   terraform = { "tflint" },
 }
