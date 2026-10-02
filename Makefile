@@ -1,4 +1,4 @@
-.PHONY: install install-macos check-macos check-homebrew
+.PHONY: install install-macos check-macos check-homebrew check-nodejs
 .PHONY: install-homebrew-dependencies install-claude-acp install-terraform
 .PHONY: hooks help
 .NOTPARALLEL: install-macos
@@ -6,13 +6,17 @@
 install: install-macos
 
 # macOS installation using Homebrew
-install-macos: check-macos check-homebrew install-homebrew-dependencies install-claude-acp install-terraform
+install-macos: check-macos check-homebrew check-nodejs install-homebrew-dependencies install-claude-acp install-terraform
 
 check-macos:
 	@test "$(shell uname -s)" = "Darwin" || { echo "The Makefile installer supports macOS only."; exit 1; }
 
 check-homebrew:
 	@command -v brew >/dev/null 2>&1 || { echo "Homebrew not found. Please install Homebrew first: https://brew.sh"; exit 1; }
+
+check-nodejs:
+	@command -v node >/dev/null 2>&1 || { echo "Node.js not found. Please install Node.js first: https://nodejs.org/"; exit 1; }
+	@command -v npm >/dev/null 2>&1 || { echo "npm not found. Please install npm with Node.js first: https://nodejs.org/"; exit 1; }
 
 install-homebrew-dependencies:
 	@echo "Installing dependencies for macOS..."
