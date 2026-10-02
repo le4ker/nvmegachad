@@ -1,4 +1,19 @@
 local map = vim.keymap.set
+local mason_registry = require "mason-registry"
+local mason_update_pending = false
+
+mason_registry:on("update:success", function()
+  if not mason_update_pending then
+    return
+  end
+
+  mason_update_pending = false
+  vim.schedule(function()
+    vim.cmd "Mason"
+    local key = vim.api.nvim_replace_termcodes("U", true, false, true)
+    vim.api.nvim_feedkeys(key, "m", false)
+  end)
+end)
 
 -- General
 map("n", "<Esc>", "<cmd>noh<CR>", { desc = "General Clear Highlights", silent = true })
@@ -24,18 +39,13 @@ map("n", "<leader>lu", "<cmd>Lazy update<CR>", {
 map("n", "<leader>/", "gcc", { desc = "General Toggle Comment", remap = true })
 map("v", "<leader>/", "gc", { desc = "General Toggle Comment", remap = true })
 map("n", "<leader>mu", function()
-  vim.notify("Updating Mason packages...", vim.log.levels.INFO)
-  local registry = require "mason-registry"
-  registry.refresh(function()
-    local installed = registry.get_installed_packages()
-    for _, pkg in ipairs(installed) do
-      pkg:install()
-    end
-    vim.schedule(function()
-      vim.cmd "Mason"
-    end)
-  end)
-end, { desc = "General Update Mason Packages", silent = true })
+  local mason_ui_loaded = package.loaded["mason.ui.instance"] ~= nil
+  mason_update_pending = true
+  vim.cmd "Mason"
+  if mason_ui_loaded then
+    mason_registry.update()
+  end
+end, { desc = "General Update Mason Packages" })
 map("n", "<leader>tf", function()
   vim.g.format_on_save = not vim.g.format_on_save
   vim.notify(vim.g.format_on_save and "Format on save enabled" or "Format on save disabled")
