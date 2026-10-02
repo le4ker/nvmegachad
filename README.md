@@ -23,7 +23,8 @@ development workflows.
 ## Features
 
 - **Minimal UI** — Clean interface with thoughtfully designed key mappings
-- **Multi-language Support** — 18 languages with LSP, formatting, and linting
+- **Multi-language Support** — 18 languages with varying LSP, formatting, and
+  linting support
 - **Debugging** — Integrated DAP support for Go and Python
 - **AI Assistant** — Built-in
   [Claude Code](https://www.anthropic.com/claude-code) support via
@@ -68,18 +69,15 @@ development workflows.
 
 ## Requirements
 
-| Dependency                                                               | Version | Notes                           |
-| ------------------------------------------------------------------------ | ------- | ------------------------------- |
-| [Neovim](https://github.com/neovim/neovim/releases/tag/v0.12.0)          | 0.12.0+ | Required                        |
-| [Nerd Font](https://www.nerdfonts.com/)                                  | Any     | Hack Nerd Font recommended      |
-| [Ripgrep](https://github.com/BurntSushi/ripgrep)                         | Latest  | For fuzzy finding               |
-| [Claude Code](https://docs.anthropic.com/en/docs/claude-code/quickstart) | Latest  | For AI assistant                |
-| [claude-agent-acp](https://github.com/zed-industries/claude-agent-acp)   | Latest  | ACP bridge for Claude Code      |
-| [Terraform](https://www.terraform.io/)                                   | Latest  | Optional, for Terraform support |
-
-> **Tip:** On macOS, `make install` automates installation of the system
-> dependencies, including the Tree-sitter CLI required to build parsers. Install
-> Claude Code separately. The Makefile installer is macOS-only.
+| Dependency                                                               | Version | Notes                                |
+| ------------------------------------------------------------------------ | ------- | ------------------------------------ |
+| [Neovim](https://github.com/neovim/neovim/releases/tag/v0.12.0)          | 0.12.0+ | Required                             |
+| [Nerd Font](https://www.nerdfonts.com/)                                  | Any     | Hack Nerd Font recommended           |
+| [Ripgrep](https://github.com/BurntSushi/ripgrep)                         | Latest  | For fuzzy finding                    |
+| [Node.js/npm](https://nodejs.org/)                                       | Latest  | Required by Markdown Preview and ACP |
+| [Claude Code](https://docs.anthropic.com/en/docs/claude-code/quickstart) | Latest  | Optional, for AI companion           |
+| [claude-agent-acp](https://github.com/zed-industries/claude-agent-acp)   | Latest  | Optional, used with Claude Code      |
+| [Terraform](https://www.terraform.io/)                                   | Latest  | Optional, for Terraform support      |
 
 ## Installation
 
