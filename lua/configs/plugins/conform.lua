@@ -24,6 +24,11 @@ require("conform").setup {
     yaml = { "prettier" },
     zsh = { "shfmt" },
   },
+  formatters = {
+    isort = {
+      prepend_args = { "--profile", "black" },
+    },
+  },
   format_on_save = function()
     if not vim.g.format_on_save then
       return
