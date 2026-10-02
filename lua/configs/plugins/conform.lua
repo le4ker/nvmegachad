@@ -3,6 +3,7 @@ require("conform").setup {
     c = { "clang-format" },
     cpp = { "clang-format" },
     css = { "prettier" },
+    dockerfile = { "dockerfmt" },
     go = { "goimports" },
     graphql = { "prettier" },
     html = { "prettier" },

@@ -34,6 +34,7 @@ return {
       "css-lsp",
       "debugpy",
       "delve",
+      "dockerfmt",
       "dockerfile-language-server",
       "goimports",
       "golangci-lint",
