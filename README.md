@@ -20,7 +20,7 @@ A batteries-included [Neovim](https://neovim.io/) configuration built on the
 philosophy while providing comprehensive out-of-the-box support for modern
 development workflows.
 
-If features:
+It features:
 
 - **Minimal UI** — Clean interface with thoughtfully designed key mappings
 - **Multi-language Support** — 18 languages with varying LSP, formatting, and
