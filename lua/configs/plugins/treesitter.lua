@@ -40,7 +40,7 @@ local parsers = {
   "yaml",
 }
 
-require("nvim-treesitter").setup {}
+require("nvim-treesitter").setup({})
 require("nvim-treesitter").install(parsers)
 
 vim.api.nvim_create_autocmd("FileType", {

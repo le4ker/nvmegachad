@@ -1,5 +1,5 @@
 local map = vim.keymap.set
-local actions = require "utils.mapping_actions"
+local actions = require("utils.mapping_actions")
 
 -- General
 map("n", "<Esc>", "<cmd>noh<CR>", { desc = "General Clear Highlights", silent = true })

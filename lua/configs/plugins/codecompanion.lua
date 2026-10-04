@@ -3,7 +3,7 @@
 local has_api_key = vim.env.ANTHROPIC_API_KEY ~= nil and vim.env.ANTHROPIC_API_KEY ~= ""
 local chat_adapter = has_api_key and "anthropic" or "claude_code"
 
-require("codecompanion").setup {
+require("codecompanion").setup({
   adapters = {
     acp = {
       claude_code = function()
@@ -24,4 +24,4 @@ require("codecompanion").setup {
       },
     },
   },
-}
+})

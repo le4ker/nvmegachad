@@ -1,6 +1,6 @@
 local M = {}
 
-local is_windows = vim.fn.has "win32" == 1
+local is_windows = vim.fn.has("win32") == 1
 local python_relative = is_windows and "Scripts/python.exe" or "bin/python"
 local pylint_relative = is_windows and "Scripts/pylint.exe" or "bin/pylint"
 
@@ -38,7 +38,7 @@ local function is_poetry_project(root)
   end
 
   for _, line in ipairs(vim.fn.readfile(pyproject)) do
-    if line:match "^%s*%[tool%.poetry%]%s*$" then
+    if line:match("^%s*%[tool%.poetry%]%s*$") then
       return true
     end
   end
@@ -47,7 +47,7 @@ local function is_poetry_project(root)
 end
 
 local function poetry_environment(root)
-  if not is_poetry_project(root) or vim.fn.executable "poetry" ~= 1 then
+  if not is_poetry_project(root) or vim.fn.executable("poetry") ~= 1 then
     return nil
   end
 

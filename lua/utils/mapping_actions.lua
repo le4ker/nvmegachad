@@ -1,9 +1,9 @@
 local M = {}
 
-local mason_registry = require "mason-registry"
+local mason_registry = require("mason-registry")
 
 function M.update_mason_packages()
-  vim.cmd "Mason"
+  vim.cmd("Mason")
   mason_registry.update(function(success)
     if not success then
       vim.notify("Mason registry update failed", vim.log.levels.ERROR)
@@ -11,7 +11,7 @@ function M.update_mason_packages()
     end
 
     vim.schedule(function()
-      vim.cmd "Mason"
+      vim.cmd("Mason")
       local key = vim.api.nvim_replace_termcodes("U", true, false, true)
       vim.api.nvim_feedkeys(key, "m", false)
     end)
@@ -48,17 +48,17 @@ local function close_terminal()
 end
 
 function M.new_horizontal_terminal()
-  require("nvchad.term").new { pos = "sp", size = 0.5 }
+  require("nvchad.term").new({ pos = "sp", size = 0.5 })
 end
 
 M.close_terminal = close_terminal
 
 function M.previous_diagnostic()
-  vim.diagnostic.jump { count = -1 }
+  vim.diagnostic.jump({ count = -1 })
 end
 
 function M.next_diagnostic()
-  vim.diagnostic.jump { count = 1 }
+  vim.diagnostic.jump({ count = 1 })
 end
 
 function M.debug_go_test()

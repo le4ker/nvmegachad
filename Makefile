@@ -1,6 +1,6 @@
 .PHONY: install install-macos check-macos check-homebrew check-nodejs
 .PHONY: install-homebrew-dependencies install-claude-acp install-terraform
-.PHONY: hooks help
+.PHONY: hooks format help
 .NOTPARALLEL: install-macos
 
 install: install-macos
@@ -39,9 +39,14 @@ hooks:
 	@chmod +x .git/hooks/commit-msg
 	@echo "Git hooks installed successfully."
 
+# Format Lua files
+format:
+	stylua .
+
 # Help target
 help:
 	@echo "Available targets:"
 	@echo "  install         - Install dependencies for macOS"
 	@echo "  hooks           - Install git hooks for conventional commits"
+	@echo "  format          - Format Lua files with StyLua"
 	@echo "  help            - Show this help message"

@@ -1,4 +1,4 @@
-require("conform").setup {
+require("conform").setup({
   formatters_by_ft = {
     c = { "clang-format" },
     cpp = { "clang-format" },
@@ -36,4 +36,4 @@ require("conform").setup {
     end
     return { lsp_format = "fallback", timeout_ms = 3000 }
   end,
-}
+})

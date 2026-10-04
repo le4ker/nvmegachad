@@ -3,7 +3,7 @@ return {
   lazy = false,
   config = function(_, opts)
     require("mason").setup(opts)
-    local mason_registry = require "mason-registry"
+    local mason_registry = require("mason-registry")
     local ensure_installed = opts.ensure_installed or {}
 
     -- Ensure all listed tools are installed
