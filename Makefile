@@ -1,12 +1,12 @@
 .PHONY: install install-macos check-macos check-homebrew check-nodejs
-.PHONY: install-homebrew-dependencies install-claude-acp install-terraform
+.PHONY: install-homebrew-dependencies install-codex-acp install-terraform
 .PHONY: hooks format help
 .NOTPARALLEL: install-macos
 
 install: install-macos
 
 # macOS installation using Homebrew
-install-macos: check-macos check-homebrew check-nodejs install-homebrew-dependencies install-claude-acp install-terraform
+install-macos: check-macos check-homebrew check-nodejs install-homebrew-dependencies install-codex-acp install-terraform
 
 check-macos:
 	@test "$(shell uname -s)" = "Darwin" || { echo "The Makefile installer supports macOS only." >&2; exit 1; }
@@ -24,9 +24,8 @@ install-homebrew-dependencies:
 	brew install tree-sitter-cli
 	brew install neovim
 
-install-claude-acp:
-	@command -v claude >/dev/null 2>&1 || echo "Claude Code is optional; install it to use the default AI adapter: https://docs.anthropic.com/en/docs/claude-code/quickstart"
-	npm install -g @agentclientprotocol/claude-agent-acp
+install-codex-acp:
+	npm install -g @agentclientprotocol/codex-acp
 
 install-terraform:
 	brew tap hashicorp/tap

@@ -26,8 +26,7 @@ It features:
 - **Multi-language Support** — 18 languages with varying LSP, formatting, and
   linting support
 - **Debugging** — Integrated DAP support for Go and Python
-- **AI Assistant** — Built-in
-  [Claude Code](https://www.anthropic.com/claude-code) support via
+- **AI Agent** — Built-in [OpenAI Codex](https://openai.com/codex/) support via
   [ACP](https://agentclientprotocol.com/)
 - **Markdown Preview** — Live preview of Markdown files
 - **Git Integration** — Visual commit history and diff tools
@@ -37,9 +36,9 @@ It features:
 <details>
 <summary>Click to expand</summary>
 
-### AI Companion
+### AI Agent
 
-![ai](.github/images/ai.png)
+![ai-agent](.github/images/ai-agent.png)
 
 ### Editor
 
@@ -94,15 +93,14 @@ It features:
 
 ### Requirements
 
-| Dependency                                                               | Version | Notes                                |
-| ------------------------------------------------------------------------ | ------- | ------------------------------------ |
-| [Neovim](https://github.com/neovim/neovim/releases/tag/v0.12.0)          | 0.12.0+ | Required                             |
-| [Nerd Font](https://www.nerdfonts.com/)                                  | Any     | Hack Nerd Font recommended           |
-| [Ripgrep](https://github.com/BurntSushi/ripgrep)                         | Latest  | For fuzzy finding                    |
-| [Node.js/npm](https://nodejs.org/)                                       | Latest  | Required by Markdown Preview and ACP |
-| [Claude Code](https://docs.anthropic.com/en/docs/claude-code/quickstart) | Latest  | Optional, for AI companion           |
-| [claude-agent-acp](https://github.com/zed-industries/claude-agent-acp)   | Latest  | Optional, used with Claude Code      |
-| [Terraform](https://www.terraform.io/)                                   | Latest  | Optional, for Terraform support      |
+| Dependency                                                      | Version | Notes                                |
+| --------------------------------------------------------------- | ------- | ------------------------------------ |
+| [Neovim](https://github.com/neovim/neovim/releases/tag/v0.12.0) | 0.12.0+ | Required                             |
+| [Nerd Font](https://www.nerdfonts.com/)                         | Any     | Hack Nerd Font recommended           |
+| [Ripgrep](https://github.com/BurntSushi/ripgrep)                | Latest  | For fuzzy finding                    |
+| [Node.js/npm](https://nodejs.org/)                              | Latest  | Required by Markdown Preview and ACP |
+| [Codex ACP](https://github.com/agentclientprotocol/codex-acp)   | Latest  | Optional, for AI agent               |
+| [Terraform](https://www.terraform.io/)                          | Latest  | Optional, for Terraform support      |
 
 ### Quick Install
 

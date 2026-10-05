@@ -104,7 +104,7 @@ map("n", "<leader>dgl", actions.debug_last_go_test, { desc = "DAP Debug Last Go 
 map("n", "<leader>dpt", actions.debug_python_test, { desc = "DAP Debug Python Test" })
 map("n", "<leader>du", actions.toggle_dap_ui, { desc = "DAP Toggle UI" })
 
--- AI
+-- AI Agent
 map("n", "<leader>cc", "<cmd>CodeCompanionChat<CR>", { desc = "AI Open Chat", silent = true })
 map("n", "<leader>cct", "<cmd>CodeCompanionChat Toggle<CR>", {
   desc = "AI Toggle Chat",
