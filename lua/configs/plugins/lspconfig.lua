@@ -26,17 +26,4 @@ vim.lsp.config("*", {
   capabilities = require("blink.cmp").get_lsp_capabilities(),
 })
 
--- Override nvim-lspconfig's Pyright default, which limits diagnostics to open files.
-vim.lsp.config("pyright", {
-  settings = {
-    python = {
-      analysis = {
-        autoSearchPaths = true,
-        useLibraryCodeForTypes = true,
-        diagnosticMode = "workspace",
-      },
-    },
-  },
-})
-
 vim.lsp.enable(servers)
