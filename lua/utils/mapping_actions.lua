@@ -1,8 +1,7 @@
 local M = {}
 
-local mason_registry = require("mason-registry")
-
 function M.update_mason_packages()
+  local mason_registry = require("mason-registry")
   vim.cmd("Mason")
   mason_registry.update(function(success)
     if not success then
