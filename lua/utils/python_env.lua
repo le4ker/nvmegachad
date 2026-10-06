@@ -3,6 +3,8 @@ local M = {}
 local is_windows = vim.fn.has("win32") == 1
 local python_relative = is_windows and "Scripts/python.exe" or "bin/python"
 local pylint_relative = is_windows and "Scripts/pylint.exe" or "bin/pylint"
+local poetry_env_cache = {}
+local no_poetry_env = {}
 
 local function find_project_root(start_path, is_directory)
   if not start_path or start_path == "" then
@@ -47,7 +49,13 @@ local function is_poetry_project(root)
 end
 
 local function poetry_environment(root)
+  local cached = poetry_env_cache[root]
+  if cached ~= nil then
+    return cached ~= no_poetry_env and cached or nil
+  end
+
   if not is_poetry_project(root) or vim.fn.executable("poetry") ~= 1 then
+    poetry_env_cache[root] = no_poetry_env
     return nil
   end
 
@@ -55,8 +63,11 @@ local function poetry_environment(root)
     vim.fn.system("cd " .. vim.fn.shellescape(root) .. " && poetry env info -p 2>/dev/null")
   local env = vim.fn.trim(result)
   if vim.v.shell_error == 0 and env ~= "" and vim.fn.isdirectory(env) == 1 then
+    poetry_env_cache[root] = env
     return env
   end
+
+  poetry_env_cache[root] = no_poetry_env
 end
 
 local function selected_environment(start_path, is_directory)
