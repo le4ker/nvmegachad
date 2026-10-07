@@ -9,11 +9,26 @@ function M.update_mason_packages()
       return
     end
 
-    vim.schedule(function()
-      vim.cmd("Mason")
-      local key = vim.api.nvim_replace_termcodes("U", true, false, true)
-      vim.api.nvim_feedkeys(key, "m", false)
-    end)
+    local outdated = {}
+    for _, package in ipairs(mason_registry.get_installed_packages()) do
+      local latest_version = package:get_latest_version()
+      if
+        package:get_installed_version() ~= latest_version
+        and package:is_installable({ version = latest_version })
+      then
+        table.insert(outdated, package)
+      end
+    end
+
+    if #outdated == 0 then
+      vim.notify("Mason packages are up to date")
+      return
+    end
+
+    for _, package in ipairs(outdated) do
+      package:install()
+    end
+    vim.notify(("Updating %d Mason package(s)"):format(#outdated))
   end)
 end
 
