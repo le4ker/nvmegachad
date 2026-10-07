@@ -3,6 +3,6 @@
 vim.api.nvim_create_autocmd("VimEnter", {
   desc = "Open file tree on startup",
   callback = function()
-    require("nvim-tree.api").tree.open({ focus = false })
+    require("nvim-tree.api").tree.toggle({ focus = false })
   end,
 })
