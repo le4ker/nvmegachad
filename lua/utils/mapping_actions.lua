@@ -93,9 +93,4 @@ end
 
 local chat_zoomed = false
 
-function M.toggle_chat_zoom()
-  vim.cmd(chat_zoomed and "wincmd =" or "wincmd |")
-  chat_zoomed = not chat_zoomed
-end
-
 return M
