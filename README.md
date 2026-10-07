@@ -2,10 +2,6 @@
 
 # NvMegaChad
 
-![plugins](https://dotfyle.com/le4ker/nvmegachad/badges/plugins)
-![leader](https://dotfyle.com/le4ker/nvmegachad/badges/leaderkey)
-![lazy](https://dotfyle.com/le4ker/nvmegachad/badges/plugin-manager)
-
 ![Neovim](https://img.shields.io/badge/Neovim-0.12+-blueviolet?style=flat-square&logo=neovim)
 ![Lua](https://img.shields.io/badge/Made%20with-Lua-blue?style=flat-square&logo=lua)
 ![NvChad](https://img.shields.io/badge/Built%20on-NvChad-green?style=flat-square)
