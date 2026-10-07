@@ -15,9 +15,8 @@ lint.linters.pylint.cmd = function()
   return require("utils.python_env").pylint_command(vim.api.nvim_buf_get_name(0))
 end
 
-local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
 vim.api.nvim_create_autocmd("BufWritePost", {
-  group = lint_augroup,
+  desc = "Lint buffer after saving",
   callback = function()
     lint.try_lint()
   end,
