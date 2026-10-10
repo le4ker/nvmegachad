@@ -13,7 +13,6 @@ lua/
   chadrc.lua        # NvChad theme/UI overrides (theme, statusline, tabufline)
   options.lua       # vim.opt settings and vim.g feature toggles
   mappings.lua      # All keybindings — single source of truth
-  unmappings.lua    # Removes conflicting NvChad defaults via safe_unmap()
   plugins/          # Lazy.nvim plugin specs — one file per plugin
   configs/plugins/  # Plugin setup modules for Lazy.nvim specs
 lsp/                # Per-server LSP configs loaded by Neovim (runtimepath)
@@ -43,8 +42,8 @@ separate module, use this pattern:
 - Keep setup inline when it is short and self-contained. Move it to
   `lua/configs/plugins/<name>.lua` when the configuration is substantial or
   specialized, includes imperative logic, registers autocmds or listeners,
-  derives settings, coordinates with other plugins, or is otherwise clearer as
-  a separate module.
+  derives settings, coordinates with other plugins, or is otherwise clearer as a
+  separate module.
 - When a separate module only wraps setup, pass `opts` through to it and call
   the plugin's `setup(opts)` there.
 
@@ -78,8 +77,6 @@ When adding support for a new language, update all of the following:
 
 - All mappings go in `lua/mappings.lua` — never add `vim.keymap.set` calls in
   config or plugin files
-- If a new mapping conflicts with an NvChad default, add a `safe_unmap()` call
-  to `lua/unmappings.lua`
 - Group mappings under a comment header matching their category (General, LSP,
   DAP, AI, etc.)
 
