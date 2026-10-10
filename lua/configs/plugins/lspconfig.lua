@@ -19,8 +19,6 @@ local servers = {
   "yamlls",
 }
 
-vim.lsp.inlay_hint.enable(true)
-
 -- merge blink.cmp's expanded capabilities into every server
 vim.lsp.config("*", {
   capabilities = require("blink.cmp").get_lsp_capabilities(),
