@@ -8,4 +8,7 @@ return {
     "DapStepOut",
     "DapTerminate",
   },
+  config = function()
+    require("configs.plugins.dap").setup()
+  end,
 }
