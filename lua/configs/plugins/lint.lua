@@ -16,8 +16,11 @@ lint.linters.pylint.cmd = function()
   return python_env.pylint_command(vim.api.nvim_buf_get_name(0))
 end
 
-vim.api.nvim_create_autocmd("BufWritePost", {
-  desc = "Lint buffer after saving",
+vim.api.nvim_create_autocmd({
+  "BufReadPost",
+  "BufWritePost",
+}, {
+  desc = "Lint buffer after opening or saving",
   callback = function()
     lint.try_lint()
   end,
