@@ -1,27 +1,33 @@
-require("nvchad.configs.lspconfig").defaults()
+local M = {}
 
-local servers = {
-  "bashls",
-  "clangd",
-  "cssls",
-  "dockerls",
-  "gopls",
-  "html",
-  "jsonls",
-  "lua_ls",
-  "marksman",
-  "pyright",
-  "ruby_lsp",
-  "taplo",
-  "terraformls",
-  "ts_ls",
-  "vimls",
-  "yamlls",
-}
+function M.setup()
+  require("nvchad.configs.lspconfig").defaults()
 
--- merge blink.cmp's expanded capabilities into every server
-vim.lsp.config("*", {
-  capabilities = require("blink.cmp").get_lsp_capabilities(),
-})
+  local servers = {
+    "bashls",
+    "clangd",
+    "cssls",
+    "dockerls",
+    "gopls",
+    "html",
+    "jsonls",
+    "lua_ls",
+    "marksman",
+    "pyright",
+    "ruby_lsp",
+    "taplo",
+    "terraformls",
+    "ts_ls",
+    "vimls",
+    "yamlls",
+  }
 
-vim.lsp.enable(servers)
+  -- merge blink.cmp's expanded capabilities into every server
+  vim.lsp.config("*", {
+    capabilities = require("blink.cmp").get_lsp_capabilities(),
+  })
+
+  vim.lsp.enable(servers)
+end
+
+return M

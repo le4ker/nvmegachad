@@ -5,6 +5,6 @@ return {
     "BufNewFile",
   },
   config = function()
-    require("configs.plugins.lint")
+    require("configs.plugins.lint").setup()
   end,
 }

@@ -1,27 +1,33 @@
-local lint = require("lint")
-local python_env = require("utils.python_env")
+local M = {}
 
-lint.linters_by_ft = {
-  go = { "golangcilint" },
-  markdown = { "markdownlint" },
-  python = { "pylint" },
-  sh = { "shellcheck" },
-  make = { "checkmake" },
-  terraform = { "tflint" },
-  dockerfile = { "hadolint" },
-}
+function M.setup()
+  local lint = require("lint")
+  local python_env = require("utils.python_env")
 
--- Configure pylint to use the active Python environment (Poetry venv → local .venv → system fallback)
-lint.linters.pylint.cmd = function()
-  return python_env.pylint_command(vim.api.nvim_buf_get_name(0))
+  lint.linters_by_ft = {
+    go = { "golangcilint" },
+    markdown = { "markdownlint" },
+    python = { "pylint" },
+    sh = { "shellcheck" },
+    make = { "checkmake" },
+    terraform = { "tflint" },
+    dockerfile = { "hadolint" },
+  }
+
+  -- Configure pylint to use the active Python environment (Poetry venv → local .venv → system fallback)
+  lint.linters.pylint.cmd = function()
+    return python_env.pylint_command(vim.api.nvim_buf_get_name(0))
+  end
+
+  vim.api.nvim_create_autocmd({
+    "BufReadPost",
+    "BufWritePost",
+  }, {
+    desc = "Lint buffer after opening or saving",
+    callback = function()
+      lint.try_lint()
+    end,
+  })
 end
 
-vim.api.nvim_create_autocmd({
-  "BufReadPost",
-  "BufWritePost",
-}, {
-  desc = "Lint buffer after opening or saving",
-  callback = function()
-    lint.try_lint()
-  end,
-})
+return M
