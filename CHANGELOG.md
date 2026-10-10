@@ -1,3 +1,51 @@
+## [2.17.0](https://github.com/le4ker/nvmegachad/compare/v2.16.2...v2.17.0) (2026-10-10)
+
+### ✨ Features
+
+* **AI agent:** replace Claude Code with Codex ([ffe54b2](https://github.com/le4ker/nvmegachad/commit/ffe54b20e5149481ccbd1a946d7e7f01bca7330f))
+* **blink:** add snippet placeholder navigation ([78d4f8f](https://github.com/le4ker/nvmegachad/commit/78d4f8f9a6404a0a472f3d8bcffaa7c7f3063c97))
+* enable inlay hints for gopls ([6f0023c](https://github.com/le4ker/nvmegachad/commit/6f0023c9cc414774efbab090f1a308d0829a211a))
+* **format:** add Dockerfile formatting with dockerfmt ([2374d15](https://github.com/le4ker/nvmegachad/commit/2374d150c96d09e9b9a6ec92abb23aff95fa49cb))
+* **lint:** add Hadolint support for Dockerfiles ([4538ae6](https://github.com/le4ker/nvmegachad/commit/4538ae608fe03fd6babdd0cf9f5d3fc478797c3d))
+* **lint:** add ShellCheck support for shell scripts ([7aed61e](https://github.com/le4ker/nvmegachad/commit/7aed61e19107540ee05f09104bed4ee2e885b6ad))
+* **nvim-tree:** hide dotfiles by default ([15d2999](https://github.com/le4ker/nvmegachad/commit/15d2999e2a218f64dc88fe224aafbb81ef575321))
+* open nvim-tree on startup ([8496049](https://github.com/le4ker/nvmegachad/commit/84960496c2946a3e6fa0578a020287b2d6378dbe))
+* **ui:** update NvChad UI ([6c084b9](https://github.com/le4ker/nvmegachad/commit/6c084b9f060445bf2ddc7c7ff3aa08cf2f61a317))
+
+### 🐛 Bug Fixes
+
+* **dap:** remove cyclic UI dependency ([a6fdcb0](https://github.com/le4ker/nvmegachad/commit/a6fdcb0e228608755ddfde5ba2f7f2fd2fde282b))
+* **gopls:** remove obsolete completion workaround ([cb8a368](https://github.com/le4ker/nvmegachad/commit/cb8a368f4f7f2c23ef3d72ed3bb14b0756aad486))
+* **make:** clarify prerequisite errors ([b818711](https://github.com/le4ker/nvmegachad/commit/b818711a83476d74925b1ec494dd290d8e87aec0))
+* **mason:** update packages through registry API ([b15cf68](https://github.com/le4ker/nvmegachad/commit/b15cf680310ff1116940531ef448c6b17c731bc3))
+* **nvim-tree:** preserve focus on startup ([5dd549a](https://github.com/le4ker/nvmegachad/commit/5dd549a0f445de5079ece151649b10ed4b263e94))
+* **python:** cache Poetry environment lookups ([8395163](https://github.com/le4ker/nvmegachad/commit/8395163d73624029d7e54f4a6cbdfb618d169ac9))
+
+### 🔧 Refactoring
+
+* **config:** organize startup and plugin module loading ([ce14b16](https://github.com/le4ker/nvmegachad/commit/ce14b16f5ea17bb686850d9c9f8311de8c51aea1))
+* describe audocmds ([d763875](https://github.com/le4ker/nvmegachad/commit/d763875ef91a6dd5d560a8a97574db72745ba44f))
+* **mappings:** load Mason registry on demand ([c4b1aff](https://github.com/le4ker/nvmegachad/commit/c4b1affd47ac45b4ca5b29f69a36cc65aabb1e49))
+* **mappings:** reorganize AI keybindings ([bd3e267](https://github.com/le4ker/nvmegachad/commit/bd3e2673eb5f06501585359641802ed721ac71b2))
+* move pyright settings to lsp/pyright.lua ([84cb567](https://github.com/le4ker/nvmegachad/commit/84cb56758c52b3ab3ac4be9b29c1e8e371b1fde7))
+* remove unused mapping action ([8fb0045](https://github.com/le4ker/nvmegachad/commit/8fb0045eb6c84a8f4a81be5a6c0710bac485a57f))
+* remove unused variable ([db4e1f5](https://github.com/le4ker/nvmegachad/commit/db4e1f598b51035e93098246a6f59dc1e7a72535))
+
+### 📚 Documentation
+
+* **README:** update README.md ([0de1a09](https://github.com/le4ker/nvmegachad/commit/0de1a098872070e4c620a76604ee3073378f16ff))
+
+### 🏠 Chores
+
+* **plugins:** update lazy-lock.json ([fe0753d](https://github.com/le4ker/nvmegachad/commit/fe0753d7b044b6623cd8641c98680a33b0c173da))
+* **plugins:** update lazy-lock.json ([bf60749](https://github.com/le4ker/nvmegachad/commit/bf60749b01fefe1e928d15374acddea36b1b9b1e))
+* **plugins:** update lazy-lock.json ([80b71e8](https://github.com/le4ker/nvmegachad/commit/80b71e86533e8fd94e543a51dddfc0cda9b54471))
+* **plugins:** update lazy-lock.json ([09d4d8d](https://github.com/le4ker/nvmegachad/commit/09d4d8d2be203f3f43244ef5a5669308df24e9f6))
+* remove CLAUDE.md ([37a1f23](https://github.com/le4ker/nvmegachad/commit/37a1f23d58ec976fed01a1ea01f515424e361400))
+* remove lsp files with no configuration ([7f09b6e](https://github.com/le4ker/nvmegachad/commit/7f09b6e0adc9a2f27707edf35b512f34d98ae629))
+* rename mason repository URL ([d8449d2](https://github.com/le4ker/nvmegachad/commit/d8449d27415027354692a59659a7674744fdd493))
+* update .stylua.toml ([5c8d9b5](https://github.com/le4ker/nvmegachad/commit/5c8d9b5b9e289ee5869a434ac66103f68630506d))
+
 ## [2.16.2](https://github.com/le4ker/nvmegachad/compare/v2.16.1...v2.16.2) (2026-10-02)
 
 ### 🐛 Bug Fixes
