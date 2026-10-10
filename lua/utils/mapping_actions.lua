@@ -91,6 +91,4 @@ function M.toggle_dap_ui()
   require("dapui").toggle()
 end
 
-local chat_zoomed = false
-
 return M
