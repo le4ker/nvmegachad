@@ -1,3 +1,5 @@
+require("nvchad.autocmds")
+
 -- Open the file tree on startup without taking focus from the current buffer.
 
 vim.api.nvim_create_autocmd("VimEnter", {

@@ -1,3 +1,5 @@
+local treesitter = require("nvim-treesitter")
+
 local parsers = {
   "bash",
   "c",
@@ -40,8 +42,8 @@ local parsers = {
   "yaml",
 }
 
-require("nvim-treesitter").setup({})
-require("nvim-treesitter").install(parsers)
+treesitter.setup({})
+treesitter.install(parsers)
 
 vim.api.nvim_create_autocmd("FileType", {
   callback = function(args)

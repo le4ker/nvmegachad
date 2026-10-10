@@ -1,8 +1,11 @@
-require("codecompanion").setup({
+local codecompanion = require("codecompanion")
+local adapters = require("codecompanion.adapters")
+
+codecompanion.setup({
   adapters = {
     acp = {
       codex = function()
-        return require("codecompanion.adapters").extend("codex", {
+        return adapters.extend("codex", {
           defaults = {
             auth_method = "chat-gpt",
           },

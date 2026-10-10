@@ -1,4 +1,5 @@
 local lint = require("lint")
+local python_env = require("utils.python_env")
 
 lint.linters_by_ft = {
   go = { "golangcilint" },
@@ -12,7 +13,7 @@ lint.linters_by_ft = {
 
 -- Configure pylint to use the active Python environment (Poetry venv → local .venv → system fallback)
 lint.linters.pylint.cmd = function()
-  return require("utils.python_env").pylint_command(vim.api.nvim_buf_get_name(0))
+  return python_env.pylint_command(vim.api.nvim_buf_get_name(0))
 end
 
 vim.api.nvim_create_autocmd("BufWritePost", {
