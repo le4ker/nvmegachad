@@ -1,27 +1,6 @@
 return {
   "mason-org/mason.nvim",
   lazy = false,
-  config = function(_, opts)
-    require("mason").setup(opts)
-    local mason_registry = require("mason-registry")
-    local ensure_installed = opts.ensure_installed or {}
-
-    -- Ensure all listed tools are installed
-    mason_registry.refresh(function()
-      for _, tool in ipairs(ensure_installed) do
-        local ok, package = pcall(mason_registry.get_package, tool)
-        if ok and not package:is_installed() then
-          package:install():once("closed", function()
-            if not package:is_installed() then
-              vim.schedule(function()
-                vim.notify("Mason: failed to install " .. tool, vim.log.levels.ERROR)
-              end)
-            end
-          end)
-        end
-      end
-    end)
-  end,
   opts = {
     max_concurrent_installers = 10,
     ensure_installed = {
@@ -63,4 +42,7 @@ return {
       "yaml-language-server",
     },
   },
+  config = function(_, opts)
+    require("configs.plugins.mason").setup(opts)
+  end,
 }

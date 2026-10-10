@@ -38,8 +38,15 @@ separate module, use this pattern:
 1. `lua/plugins/<name>.lua` — Lazy.nvim spec and plugin load conditions
 2. `lua/configs/plugins/<name>.lua` — plugin setup, required by the spec
 
-Do not split simple declarative options into a separate config module without a
-reason.
+- Keep small, straightforward declarative settings in `opts`; Lazy.nvim passes
+  these to the plugin's `setup()` automatically.
+- Keep setup inline when it is short and self-contained. Move it to
+  `lua/configs/plugins/<name>.lua` when the configuration is substantial or
+  specialized, includes imperative logic, registers autocmds or listeners,
+  derives settings, coordinates with other plugins, or is otherwise clearer as
+  a separate module.
+- When a separate module only wraps setup, pass `opts` through to it and call
+  the plugin's `setup(opts)` there.
 
 ### LSP Servers
 
