@@ -1,6 +1,5 @@
 return {
   "mason-org/mason.nvim",
-  lazy = false,
   opts = {
     max_concurrent_installers = 10,
     ensure_installed = {
