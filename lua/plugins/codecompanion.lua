@@ -6,6 +6,6 @@ return {
     "nvim-treesitter/nvim-treesitter",
   },
   config = function()
-    require "configs.plugins.codecompanion"
+    require("configs.plugins.codecompanion")
   end,
 }

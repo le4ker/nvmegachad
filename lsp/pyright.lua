@@ -1,4 +1,13 @@
 return {
+  settings = {
+    python = {
+      analysis = {
+        autoSearchPaths = true,
+        useLibraryCodeForTypes = true,
+        diagnosticMode = "workspace",
+      },
+    },
+  },
   before_init = function(_, config)
     local python = require("utils.python_env").python_path(config.root_dir, true)
     if python then

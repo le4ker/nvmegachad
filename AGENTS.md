@@ -47,14 +47,16 @@ reason.
   the `servers` table and call `vim.lsp.enable(servers)`
 - Custom server config goes in `lsp/<server_name>.lua` — return a table merged
   with defaults by Neovim's native LSP loader
-- Minimal servers with no customisation still get a file returning `{}`
+- Create an `lsp/<server_name>.lua` file only when a server needs custom
+  configuration; servers without custom settings use Neovim's defaults
 
 ### Adding a New Language
 
 When adding support for a new language, update all of the following:
 
 1. `lua/configs/plugins/lspconfig.lua` — add the LSP server name to `servers`
-2. `lsp/<server>.lua` — create server config file (even if `return {}`)
+2. `lsp/<server>.lua` — create a server config file only if it needs custom
+   configuration
 3. `lua/configs/plugins/conform.lua` — add `filetype = { "formatter" }` entry
 4. `lua/configs/plugins/lint.lua` — add `filetype = { "linter" }` entry if
    applicable
@@ -106,10 +108,9 @@ Scopes should reflect the file/subsystem changed (e.g. `conform`, `lsp`,
 - **Python environment detection**: pyright and pylint share
   `lua/utils/python_env.lua`, preferring Poetry environments, then project-local
   `.venv` environments. Preserve this logic when modifying Python tooling.
-- **`lua_ls` exception**: `lua_ls` is listed in
-  `lua/configs/plugins/lspconfig.lua` but has no `lsp/lua_ls.lua` file — it
-  relies entirely on NvChad's built-in defaults. All other servers must have a
-  corresponding config file.
+- **LSP defaults**: Servers without custom settings rely on Neovim's built-in
+  defaults and do not need an `lsp/<server>.lua` file. `lua_ls` is one such
+  server.
 - **`disabled.lua` is the kill-switch**: to suppress any upstream NvChad plugin,
   add it to `lua/plugins/disabled.lua` with `enabled = false`. Do not delete or
   comment out entries — the list is intentional and documents what was removed.

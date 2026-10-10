@@ -1,9 +1,9 @@
 return {
-  "williamboman/mason.nvim",
+  "mason-org/mason.nvim",
   lazy = false,
   config = function(_, opts)
     require("mason").setup(opts)
-    local mason_registry = require "mason-registry"
+    local mason_registry = require("mason-registry")
     local ensure_installed = opts.ensure_installed or {}
 
     -- Ensure all listed tools are installed
@@ -34,7 +34,9 @@ return {
       "css-lsp",
       "debugpy",
       "delve",
+      "dockerfmt",
       "dockerfile-language-server",
+      "hadolint",
       "goimports",
       "golangci-lint",
       "gopls",
@@ -54,6 +56,7 @@ return {
       "pyright",
       "rubocop",
       "ruby-lsp",
+      "shellcheck",
       "shfmt",
       "sql-formatter",
       "vim-language-server",

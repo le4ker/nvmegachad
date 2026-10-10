@@ -1,5 +1,5 @@
 local map = vim.keymap.set
-local actions = require "utils.mapping_actions"
+local actions = require("utils.mapping_actions")
 
 -- General
 map("n", "<Esc>", "<cmd>noh<CR>", { desc = "General Clear Highlights", silent = true })
@@ -66,7 +66,6 @@ map("n", "<leader>fa", "<cmd>Telescope find_files follow=true no_ignore=true hid
 map("n", "<leader>h", actions.new_horizontal_terminal, {
   desc = "Terminal New Horizontal Terminal",
 })
-map("n", "<ESC><ESC>", actions.close_terminal, { desc = "Terminal Close Terminal" })
 map("t", "<ESC><ESC>", actions.close_terminal, { desc = "Terminal Close Terminal" })
 
 -- NvChad
@@ -104,17 +103,20 @@ map("n", "<leader>dgl", actions.debug_last_go_test, { desc = "DAP Debug Last Go 
 map("n", "<leader>dpt", actions.debug_python_test, { desc = "DAP Debug Python Test" })
 map("n", "<leader>du", actions.toggle_dap_ui, { desc = "DAP Toggle UI" })
 
--- AI
-map("n", "<leader>cc", "<cmd>CodeCompanionChat<CR>", { desc = "AI Open Chat", silent = true })
-map("n", "<leader>cct", "<cmd>CodeCompanionChat Toggle<CR>", {
-  desc = "AI Toggle Chat",
+-- AI Agent
+map(
+  "n",
+  "<leader>ac",
+  "<cmd>CodeCompanionChat<CR>",
+  { desc = "AI Agent Open Chat", silent = true }
+)
+map("n", "<leader>at", "<cmd>CodeCompanionChat Toggle<CR>", {
+  desc = "AI Agent Toggle Chat",
   silent = true,
 })
-map("n", "<leader>cca", "<cmd>CodeCompanionActions<CR>", { desc = "AI Actions", silent = true })
 map(
-  "v",
-  "<leader>cc",
-  "<cmd>CodeCompanionChat<CR>",
-  { desc = "AI Chat With Selection", silent = true }
+  "n",
+  "<leader>ax",
+  "<cmd>CodeCompanionActions<CR>",
+  { desc = "AI Agent Actions", silent = true }
 )
-map("n", "<leader>ccz", actions.toggle_chat_zoom, { desc = "AI Zoom Chat Window" })

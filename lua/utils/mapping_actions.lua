@@ -1,20 +1,34 @@
 local M = {}
 
-local mason_registry = require "mason-registry"
-
 function M.update_mason_packages()
-  vim.cmd "Mason"
+  local mason_registry = require("mason-registry")
+  vim.cmd("Mason")
   mason_registry.update(function(success)
     if not success then
       vim.notify("Mason registry update failed", vim.log.levels.ERROR)
       return
     end
 
-    vim.schedule(function()
-      vim.cmd "Mason"
-      local key = vim.api.nvim_replace_termcodes("U", true, false, true)
-      vim.api.nvim_feedkeys(key, "m", false)
-    end)
+    local outdated = {}
+    for _, package in ipairs(mason_registry.get_installed_packages()) do
+      local latest_version = package:get_latest_version()
+      if
+        package:get_installed_version() ~= latest_version
+        and package:is_installable({ version = latest_version })
+      then
+        table.insert(outdated, package)
+      end
+    end
+
+    if #outdated == 0 then
+      vim.notify("Mason packages are up to date")
+      return
+    end
+
+    for _, package in ipairs(outdated) do
+      package:install()
+    end
+    vim.notify(("Updating %d Mason package(s)"):format(#outdated))
   end)
 end
 
@@ -48,17 +62,17 @@ local function close_terminal()
 end
 
 function M.new_horizontal_terminal()
-  require("nvchad.term").new { pos = "sp", size = 0.5 }
+  require("nvchad.term").new({ pos = "sp", size = 0.5 })
 end
 
 M.close_terminal = close_terminal
 
 function M.previous_diagnostic()
-  vim.diagnostic.jump { count = -1 }
+  vim.diagnostic.jump({ count = -1 })
 end
 
 function M.next_diagnostic()
-  vim.diagnostic.jump { count = 1 }
+  vim.diagnostic.jump({ count = 1 })
 end
 
 function M.debug_go_test()
@@ -75,13 +89,6 @@ end
 
 function M.toggle_dap_ui()
   require("dapui").toggle()
-end
-
-local chat_zoomed = false
-
-function M.toggle_chat_zoom()
-  vim.cmd(chat_zoomed and "wincmd =" or "wincmd |")
-  chat_zoomed = not chat_zoomed
 end
 
 return M

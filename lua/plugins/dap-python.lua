@@ -6,6 +6,6 @@ return {
     "rcarriga/nvim-dap-ui",
   },
   config = function()
-    require "configs.plugins.dap-python"
+    require("configs.plugins.dap-python")
   end,
 }
