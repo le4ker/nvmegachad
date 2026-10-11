@@ -14,16 +14,14 @@ map("n", "<leader>s", "<cmd>w<CR>", { desc = "General Save File", silent = true 
 map("n", "<leader>q", "<cmd>q<CR>", { desc = "General Quit", silent = true })
 map("n", "<leader>y", "<cmd>%y+<CR>", { desc = "General Copy Whole File", silent = true })
 map("n", "<leader>v", "<cmd>vsplit<CR>", { desc = "General Vertical Split", silent = true })
-map("n", "<leader>pr", "<cmd>MarkdownPreviewToggle<CR>", {
+map("n", "<leader>pr", "<cmd>MdKite toggle<CR>", {
   desc = "General Preview Markdown File",
   silent = true,
 })
-map(
-  "n",
-  "<leader>lu",
-  "<cmd>Lazy update<CR>",
-  { desc = "General Update Lazy Plugins", silent = true }
-)
+map("n", "<leader>lu", "<cmd>Lazy update<CR>", {
+  desc = "General Update Lazy Plugins",
+  silent = true,
+})
 map("n", "<leader>/", "gcc", { desc = "General Toggle Comment", remap = true })
 map("v", "<leader>/", "gc", { desc = "General Toggle Comment", remap = true })
 map("n", "<leader>mu", actions.update_mason_packages, { desc = "General Update Mason Packages" })
@@ -38,7 +36,6 @@ map("n", "<S-tab>", actions.previous_buffer, { desc = "Buffer Go To Previous" })
 map("n", "<leader>x", actions.close_buffer, { desc = "Buffer Close" })
 
 -- File Explorer
--- Use a nonbreaking space so NvChad keeps "File Explorer" together as one cheatsheet heading.
 map("n", "<leader>e", "<cmd>NvimTreeFocus<CR>", { desc = "File Explorer Focus", silent = true })
 map("n", "<C-n>", "<cmd>NvimTreeToggle<CR>", { desc = "File Explorer Toggle", silent = true })
 
@@ -46,12 +43,10 @@ map("n", "<C-n>", "<cmd>NvimTreeToggle<CR>", { desc = "File Explorer Toggle", s
 map("n", "<leader>ff", "<cmd>Telescope find_files<CR>", { desc = "Search Files", silent = true })
 map("n", "<leader>fw", "<cmd>Telescope live_grep<CR>", { desc = "Search Live grep", silent = true })
 map("n", "<leader>fb", "<cmd>Telescope buffers<CR>", { desc = "Search Buffers", silent = true })
-map(
-  "n",
-  "<leader>cm",
-  "<cmd>Telescope git_commits<CR>",
-  { desc = "Search Git Commits", silent = true }
-)
+map("n", "<leader>cm", "<cmd>Telescope git_commits<CR>", {
+  desc = "Search Git Commits",
+  silent = true,
+})
 map("n", "<leader>gt", "<cmd>Telescope git_status<CR>", {
   desc = "Search Git Status",
   silent = true,
@@ -69,12 +64,10 @@ map("n", "<leader>h", actions.new_horizontal_terminal, {
 map("t", "<ESC><ESC>", actions.close_terminal, { desc = "Terminal Close Terminal" })
 
 -- NvChad
-map(
-  "n",
-  "<leader>ch",
-  "<cmd>NvCheatsheet<CR>",
-  { desc = "NvChad Toggle NvCheatsheet", silent = true }
-)
+map("n", "<leader>ch", "<cmd>NvCheatsheet<CR>", {
+  desc = "NvChad Toggle NvCheatsheet",
+  silent = true,
+})
 map("n", "<leader>th", "<cmd>Telescope themes<CR>", { desc = "NvChad Show Themes", silent = true })
 
 -- LSP
@@ -88,35 +81,31 @@ map("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "LSP Code Action" })
 map("n", "[d", actions.previous_diagnostic, { desc = "LSP Go To Previous Diagnostic" })
 map("n", "]d", actions.next_diagnostic, { desc = "LSP Go To Next Diagnostic" })
 
--- DAP
+-- Debugger
 map("n", "<leader>db", "<cmd>DapToggleBreakpoint<CR>", {
-  desc = "DAP Add Breakpoint At Line",
+  desc = "Debugger Add Breakpoint At Line",
   silent = true,
 })
-map("n", "<leader>dn", "<cmd>DapStepOver<CR>", { desc = "DAP Step Over", silent = true })
-map("n", "<leader>di", "<cmd>DapStepIn<CR>", { desc = "DAP Step In", silent = true })
-map("n", "<leader>dc", "<cmd>DapContinue<CR>", { desc = "DAP Continue", silent = true })
-map("n", "<leader>dt", "<cmd>DapTerminate<CR>", { desc = "DAP Terminate", silent = true })
-map("n", "<leader>do", "<cmd>DapStepOut<CR>", { desc = "DAP Step Out", silent = true })
-map("n", "<leader>dgt", actions.debug_go_test, { desc = "DAP Debug Go Test" })
-map("n", "<leader>dgl", actions.debug_last_go_test, { desc = "DAP Debug Last Go Test" })
-map("n", "<leader>dpt", actions.debug_python_test, { desc = "DAP Debug Python Test" })
+map("n", "<leader>dn", "<cmd>DapStepOver<CR>", { desc = "Debugger Step Over", silent = true })
+map("n", "<leader>di", "<cmd>DapStepIn<CR>", { desc = "Debugger Step In", silent = true })
+map("n", "<leader>dc", "<cmd>DapContinue<CR>", { desc = "Debugger Continue", silent = true })
+map("n", "<leader>dt", "<cmd>DapTerminate<CR>", { desc = "Debugger Terminate", silent = true })
+map("n", "<leader>do", "<cmd>DapStepOut<CR>", { desc = "Debugger Step Out", silent = true })
+map("n", "<leader>dgt", actions.debug_go_test, { desc = "Debugger Debug Go Test" })
+map("n", "<leader>dgl", actions.debug_last_go_test, { desc = "Debugger Debug Last Go Test" })
+map("n", "<leader>dpt", actions.debug_python_test, { desc = "Debugger Debug Python Test" })
 map("n", "<leader>du", actions.toggle_dap_ui, { desc = "DAP Toggle UI" })
 
 -- AI Agent
-map(
-  "n",
-  "<leader>ac",
-  "<cmd>CodeCompanionChat<CR>",
-  { desc = "AI Agent Open Chat", silent = true }
-)
+map("n", "<leader>ac", "<cmd>CodeCompanionChat<CR>", {
+  desc = "AI Agent Open Chat",
+  silent = true,
+})
 map("n", "<leader>at", "<cmd>CodeCompanionChat Toggle<CR>", {
   desc = "AI Agent Toggle Chat",
   silent = true,
 })
-map(
-  "n",
-  "<leader>ax",
-  "<cmd>CodeCompanionActions<CR>",
-  { desc = "AI Agent Actions", silent = true }
-)
+map("n", "<leader>ax", "<cmd>CodeCompanionActions<CR>", {
+  desc = "AI Agent Actions",
+  silent = true,
+})
