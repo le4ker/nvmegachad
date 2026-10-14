@@ -6,7 +6,7 @@
 install: install-macos
 
 # macOS installation using Homebrew
-install-macos: check-macos check-homebrew check-nodejs install-homebrew-dependencies install-claude-acp install-terraform
+install-macos: check-macos check-homebrew check-nodejs install-homebrew-dependencies install-codex-acp install-terraform
 
 check-macos:
 	@test "$(shell uname -s)" = "Darwin" || { echo "The Makefile installer supports macOS only." >&2; exit 1; }
@@ -17,10 +17,6 @@ check-homebrew:
 check-nodejs:
 	@command -v node >/dev/null 2>&1 || { echo "Node.js not found. Please install Node.js first: https://nodejs.org/" >&2; exit 1; }
 	@command -v npm >/dev/null 2>&1 || { echo "npm not found. Please install npm with Node.js first: https://nodejs.org/" >&2; exit 1; }
-
-check-nodejs:
-	@command -v node >/dev/null 2>&1 || { echo "Node.js not found. Please install Node.js first: https://nodejs.org/"; exit 1; }
-	@command -v npm >/dev/null 2>&1 || { echo "npm not found. Please install npm with Node.js first: https://nodejs.org/"; exit 1; }
 
 install-homebrew-dependencies:
 	brew install font-hack-nerd-font

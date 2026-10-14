@@ -89,14 +89,14 @@ It features:
 
 ### Requirements
 
-| Dependency                                                      | Version | Notes                                |
-| --------------------------------------------------------------- | ------- | ------------------------------------ |
-| [Neovim](https://github.com/neovim/neovim/releases/tag/v0.12.0) | 0.12.0+ | Required                             |
-| [Nerd Font](https://www.nerdfonts.com/)                         | Any     | Hack Nerd Font recommended           |
-| [Ripgrep](https://github.com/BurntSushi/ripgrep)                | Latest  | For fuzzy finding                    |
-| [Node.js/npm](https://nodejs.org/)                              | Latest  | Required by Markdown Preview and ACP |
-| [Codex ACP](https://github.com/agentclientprotocol/codex-acp)   | Latest  | Optional, for AI agent               |
-| [Terraform](https://www.terraform.io/)                          | Latest  | Optional, for Terraform support      |
+| Dependency                                                      | Version | Notes                           |
+| --------------------------------------------------------------- | ------- | ------------------------------- |
+| [Neovim](https://github.com/neovim/neovim/releases/tag/v0.12.0) | 0.12.0+ | Required                        |
+| [Nerd Font](https://www.nerdfonts.com/)                         | Any     | Hack Nerd Font recommended      |
+| [Ripgrep](https://github.com/BurntSushi/ripgrep)                | Latest  | For fuzzy finding               |
+| [Node.js/npm](https://nodejs.org/)                              | Latest  | Required by ACP                 |
+| [Codex ACP](https://github.com/agentclientprotocol/codex-acp)   | Latest  | Required for AI agent           |
+| [Terraform](https://www.terraform.io/)                          | Latest  | Optional, for Terraform support |
 
 ### Quick Install
 
