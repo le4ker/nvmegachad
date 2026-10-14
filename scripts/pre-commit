@@ -1,0 +1,12 @@
+#!/bin/sh
+set -eu
+
+repo_root=$(git rev-parse --show-toplevel)
+cd "$repo_root"
+
+if ! command -v nvim >/dev/null 2>&1; then
+  echo "ERROR: Neovim is required to run the pre-commit test suite." >&2
+  exit 1
+fi
+
+make test

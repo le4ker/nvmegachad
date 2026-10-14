@@ -1,6 +1,6 @@
 .PHONY: install install-macos check-macos check-homebrew check-nodejs
 .PHONY: install-homebrew-dependencies install-codex-acp install-terraform
-.PHONY: hooks format help
+.PHONY: hooks format test help
 .NOTPARALLEL: install-macos
 
 install: install-macos
@@ -35,17 +35,23 @@ install-terraform:
 hooks:
 	@echo "Installing git hooks..."
 	@cp scripts/commit-msg .git/hooks/commit-msg
-	@chmod +x .git/hooks/commit-msg
+	@cp scripts/pre-commit .git/hooks/pre-commit
+	@chmod +x .git/hooks/commit-msg .git/hooks/pre-commit
 	@echo "Git hooks installed successfully."
 
 # Format Lua files
 format:
 	stylua .
 
+# Run isolated Lua tests for config helpers
+test:
+	XDG_STATE_HOME=/tmp/nvmegachad-test-state nvim --headless -u NONE -i NONE -l tests/run.lua
+
 # Help target
 help:
 	@echo "Available targets:"
 	@echo "  install         - Install dependencies for macOS"
-	@echo "  hooks           - Install git hooks for conventional commits"
+	@echo "  hooks           - Install commit-message and test pre-commit hooks"
 	@echo "  format          - Format Lua files with StyLua"
+	@echo "  test            - Run config helper tests"
 	@echo "  help            - Show this help message"

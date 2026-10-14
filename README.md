@@ -121,6 +121,17 @@ make install
 NVIM_APPNAME=le4ker/NvMegaChad nvim
 ```
 
+### Tests
+
+Run the isolated config helper tests with:
+
+```sh
+make test
+```
+
+Install the local test and commit-message hooks with `make hooks`. The test
+suite also runs on every push and pull request in GitHub Actions.
+
 ## License
 
 See [LICENSE](LICENSE) for details.
