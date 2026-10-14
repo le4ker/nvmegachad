@@ -1,4 +1,14 @@
 local M = { cases = {} }
+M._stubs = {}
+
+function M.stub(target, key, replacement)
+  local original = target[key]
+  target[key] = replacement
+  M._stubs[#M._stubs + 1] = function()
+    target[key] = original
+  end
+  return original
+end
 
 function M.test(name, fn)
   M.cases[#M.cases + 1] = { name = name, run = fn }
@@ -28,14 +38,23 @@ end
 function M.run()
   for _, case in ipairs(M.cases) do
     local ok, err = pcall(case.run)
+    for i = #M._stubs, 1, -1 do
+      pcall(M._stubs[i])
+      M._stubs[i] = nil
+    end
     if not ok then
       io.stderr:write(("FAIL: %s\n%s\n"):format(case.name, tostring(err)))
-      os.exit(1)
+      M.failures = (M.failures or 0) + 1
+    else
+      print("PASS: " .. case.name)
     end
-    print("PASS: " .. case.name)
   end
 
-  print(("%d tests passed"):format(#M.cases))
+  local failures = M.failures or 0
+  print(("%d tests passed, %d failed"):format(#M.cases - failures, failures))
+  if failures > 0 then
+    os.exit(1)
+  end
 end
 
 return M

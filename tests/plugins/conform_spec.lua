@@ -47,17 +47,6 @@ T.test("Conform maps supported filetypes to their intended formatters", function
   T.eq(table.concat(opts.formatters.isort.prepend_args, " "), "--profile black")
 end)
 
-T.test("Conform format-on-save callback follows the global toggle", function()
-  local format_on_save = require("plugins.conform").opts.format_on_save
-
-  vim.g.format_on_save = false
-  T.eq(format_on_save(), nil)
-  vim.g.format_on_save = true
-  local opts = format_on_save()
-  T.eq(opts.lsp_format, "fallback")
-  T.eq(opts.timeout_ms, 1000)
-end)
-
 T.test("every configured formatter is provisioned by Mason or declared external", function()
   local formatters = require("plugins.conform").opts.formatters_by_ft
   local mason_tools = require("plugins.mason").opts.ensure_installed

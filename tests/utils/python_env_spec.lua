@@ -1,6 +1,9 @@
 local T = require("test_helper")
 
 local function with_environment(root, opts, callback)
+  local previous_module = package.loaded["utils.python_env"]
+  package.loaded["utils.python_env"] = nil
+  require("utils.python_env")
   local saved = {
     find = vim.fs.find,
     executable = vim.fn.executable,
@@ -26,7 +29,7 @@ local function with_environment(root, opts, callback)
       or 0
   end
   vim.fn.readfile = function()
-    return {}
+    return opts.poetry_header and { "[tool.poetry]" } or {}
   end
   vim.fn.isdirectory = function(path)
     if path == poetry_env then
@@ -41,6 +44,7 @@ local function with_environment(root, opts, callback)
     return opts.executables[path] and 1 or 0
   end
   vim.fn.system = function()
+    saved.system(opts.shell_error and "false" or "true")
     return opts.poetry_path or ""
   end
 
@@ -58,6 +62,7 @@ local function with_environment(root, opts, callback)
   vim.fn.isdirectory = saved.isdirectory
   vim.fn.readfile = saved.readfile
   vim.fn.system = saved.system
+  package.loaded["utils.python_env"] = previous_module
   assert(ok, err)
 end
 
@@ -163,4 +168,100 @@ T.test("Pylint uses the local venv executable when available", function()
   }, function(paths)
     T.eq(python_env.pylint_command(root, true), paths.pylint)
   end)
+end)
+
+T.test("Poetry environment lookup is cached once per project root", function()
+  local root, calls = "/tests/poetry-cache", 0
+  with_environment(root, {
+    project = true,
+    poetry_header = true,
+    poetry_env_dir = true,
+    poetry_path = root .. "/poetry-env",
+    executables = { poetry = true, [root .. "/poetry-env/bin/python"] = true },
+  }, function(paths)
+    local old_system = vim.fn.system
+    vim.fn.system = function(...)
+      calls = calls + 1
+      return old_system(...)
+    end
+    local python_env = require("utils.python_env")
+    T.eq(python_env.python_path(root, true), paths.poetry_python)
+    T.eq(python_env.python_path(root, true), paths.poetry_python)
+    T.eq(calls, 1)
+    vim.fn.system = old_system
+  end)
+end)
+
+T.test("failed Poetry lookup falls back to local venv and system pylint", function()
+  local root = "/tests/poetry-shell-error"
+  with_environment(root, {
+    project = true,
+    poetry = true,
+    shell_error = 1,
+    poetry_env_dir = true,
+    venv_dir = true,
+    poetry_path = root .. "/poetry-env",
+    executables = { poetry = true, [root .. "/.venv/bin/python"] = true },
+  }, function(paths)
+    local env = require("utils.python_env")
+    T.eq(env.python_path(root, true), paths.python)
+    T.eq(env.pylint_command(root, true), "pylint")
+  end)
+end)
+
+T.test("Python root detection uses git marker or start directory and accepts file paths", function()
+  local root = "/tests/root-detection"
+  with_environment(
+    root,
+    { venv_dir = true, executables = { [root .. "/.venv/bin/python"] = true } },
+    function(paths)
+      local old_find, old_dirname, searched = vim.fs.find, vim.fs.dirname, nil
+      vim.fs.dirname = function(path)
+        if path == root .. "/main.py" then
+          return root
+        end
+        return old_dirname(path)
+      end
+      vim.fs.find = function(names, opts)
+        searched = opts.path
+        return {}
+      end
+      local env = require("utils.python_env")
+      T.eq(env.python_path(root .. "/main.py", false), paths.python)
+      T.eq(searched, root)
+      vim.fs.find, vim.fs.dirname = old_find, old_dirname
+    end
+  )
+end)
+
+T.test("Poetry pyproject header is recognized without a lock file", function()
+  local root = "/tests/poetry-header"
+  with_environment(root, {
+    project = true,
+    poetry_header = true,
+    poetry_env_dir = true,
+    poetry_path = root .. "/poetry-env",
+    executables = { poetry = true, [root .. "/poetry-env/bin/python"] = true },
+  }, function(paths)
+    T.eq(require("utils.python_env").python_path(root, true), paths.poetry_python)
+  end)
+end)
+
+T.test("Python root detection falls back to a git marker", function()
+  local root = "/tests/git-root"
+  with_environment(
+    root,
+    { venv_dir = true, executables = { [root .. "/.venv/bin/python"] = true } },
+    function(paths)
+      local old_find = vim.fs.find
+      vim.fs.find = function(names)
+        if names == ".git" then
+          return { root .. "/.git" }
+        end
+        return {}
+      end
+      T.eq(require("utils.python_env").python_path(root .. "/nested", true), paths.python)
+      vim.fs.find = old_find
+    end
+  )
 end)

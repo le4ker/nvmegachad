@@ -7,11 +7,11 @@ map("n", "<C-h>", "<C-w>h", { desc = "General Switch Window Left" })
 map("n", "<C-j>", "<C-w>j", { desc = "General Switch Window Down" })
 map("n", "<C-k>", "<C-w>k", { desc = "General Switch Window Up" })
 map("n", "<C-l>", "<C-w>l", { desc = "General Switch Window Right" })
-map("n", "<S-u>", "<C-r>", { desc = "General Redo" })
+map("n", "<S-u>", "<C-r>", { desc = "General Redo Change" })
 map("n", "<C-d>", "<C-d>zz", { desc = "General Move Half Page Down And Center" })
 map("n", "<C-u>", "<C-u>zz", { desc = "General Move Half Page Up And Center" })
 map("n", "<leader>s", "<cmd>w<CR>", { desc = "General Save File", silent = true })
-map("n", "<leader>q", "<cmd>q<CR>", { desc = "General Quit", silent = true })
+map("n", "<leader>q", "<cmd>q<CR>", { desc = "General Quit Window", silent = true })
 map("n", "<leader>y", "<cmd>%y+<CR>", { desc = "General Copy Whole File", silent = true })
 map("n", "<leader>v", "<cmd>vsplit<CR>", { desc = "General Vertical Split", silent = true })
 map("n", "<leader>pr", "<cmd>MdKite toggle<CR>", {
@@ -30,19 +30,25 @@ map("n", "<leader>tf", actions.toggle_format_on_save, { desc = "General Toggle F
 map("n", "<leader>ti", actions.toggle_inlay_hints, { desc = "General Toggle Inlay Hints" })
 
 -- Buffer Management
-map("n", "<leader>b", "<cmd>enew<CR>", { desc = "Buffer New", silent = true })
+map("n", "<leader>b", "<cmd>enew<CR>", { desc = "Buffer Create New", silent = true })
 map("n", "<tab>", actions.next_buffer, { desc = "Buffer Go To Next" })
 map("n", "<S-tab>", actions.previous_buffer, { desc = "Buffer Go To Previous" })
-map("n", "<leader>x", actions.close_buffer, { desc = "Buffer Close" })
+map("n", "<leader>x", actions.close_buffer, { desc = "Buffer Close Current" })
 
 -- File Explorer
-map("n", "<leader>e", "<cmd>NvimTreeFocus<CR>", { desc = "File Explorer Focus", silent = true })
-map("n", "<C-n>", "<cmd>NvimTreeToggle<CR>", { desc = "File Explorer Toggle", silent = true })
+map("n", "<leader>e", "<cmd>NvimTreeFocus<CR>", { desc = "File Explorer Focus", silent = true })
+map("n", "<C-n>", "<cmd>NvimTreeToggle<CR>", { desc = "File Explorer Toggle", silent = true })
 
 -- Search
-map("n", "<leader>ff", "<cmd>Telescope find_files<CR>", { desc = "Search Files", silent = true })
-map("n", "<leader>fw", "<cmd>Telescope live_grep<CR>", { desc = "Search Live grep", silent = true })
-map("n", "<leader>fb", "<cmd>Telescope buffers<CR>", { desc = "Search Buffers", silent = true })
+map("n", "<leader>ff", "<cmd>Telescope find_files<CR>", {
+  desc = "Search Find Files",
+  silent = true,
+})
+map("n", "<leader>fw", "<cmd>Telescope live_grep<CR>", { desc = "Search Live Grep", silent = true })
+map("n", "<leader>fb", "<cmd>Telescope buffers<CR>", {
+  desc = "Search List Buffers",
+  silent = true,
+})
 map("n", "<leader>cm", "<cmd>Telescope git_commits<CR>", {
   desc = "Search Git Commits",
   silent = true,
@@ -51,7 +57,10 @@ map("n", "<leader>gt", "<cmd>Telescope git_status<CR>", {
   desc = "Search Git Status",
   silent = true,
 })
-map("n", "<leader>pt", "<cmd>Telescope terms<CR>", { desc = "Search Terminals", silent = true })
+map("n", "<leader>pt", "<cmd>Telescope terms<CR>", {
+  desc = "Search List Terminals",
+  silent = true,
+})
 map("n", "<leader>fa", "<cmd>Telescope find_files follow=true no_ignore=true hidden=true<CR>", {
   desc = "Search All Files",
   silent = true,
@@ -74,9 +83,9 @@ map("n", "<leader>th", "<cmd>Telescope themes<CR>", { desc = "NvChad Show Themes
 map("n", "gD", vim.lsp.buf.declaration, { desc = "LSP Go To Declaration" })
 map("n", "gd", vim.lsp.buf.definition, { desc = "LSP Go To Definition" })
 map("n", "gi", vim.lsp.buf.implementation, { desc = "LSP Go To Implementation" })
-map("n", "gr", vim.lsp.buf.references, { desc = "LSP References" })
-map("n", "K", vim.lsp.buf.hover, { desc = "LSP Hover" })
-map("n", "<leader>rn", vim.lsp.buf.rename, { desc = "LSP Rename" })
+map("n", "gr", vim.lsp.buf.references, { desc = "LSP Find References" })
+map("n", "K", vim.lsp.buf.hover, { desc = "LSP Show Hover" })
+map("n", "<leader>rn", vim.lsp.buf.rename, { desc = "LSP Rename Symbol" })
 map("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "LSP Code Action" })
 map("n", "[d", actions.previous_diagnostic, { desc = "LSP Go To Previous Diagnostic" })
 map("n", "]d", actions.next_diagnostic, { desc = "LSP Go To Next Diagnostic" })
@@ -88,24 +97,30 @@ map("n", "<leader>db", "<cmd>DapToggleBreakpoint<CR>", {
 })
 map("n", "<leader>dn", "<cmd>DapStepOver<CR>", { desc = "Debugger Step Over", silent = true })
 map("n", "<leader>di", "<cmd>DapStepIn<CR>", { desc = "Debugger Step In", silent = true })
-map("n", "<leader>dc", "<cmd>DapContinue<CR>", { desc = "Debugger Continue", silent = true })
-map("n", "<leader>dt", "<cmd>DapTerminate<CR>", { desc = "Debugger Terminate", silent = true })
+map("n", "<leader>dc", "<cmd>DapContinue<CR>", {
+  desc = "Debugger Continue Session",
+  silent = true,
+})
+map("n", "<leader>dt", "<cmd>DapTerminate<CR>", {
+  desc = "Debugger Terminate Session",
+  silent = true,
+})
 map("n", "<leader>do", "<cmd>DapStepOut<CR>", { desc = "Debugger Step Out", silent = true })
 map("n", "<leader>dgt", actions.debug_go_test, { desc = "Debugger Debug Go Test" })
 map("n", "<leader>dgl", actions.debug_last_go_test, { desc = "Debugger Debug Last Go Test" })
 map("n", "<leader>dpt", actions.debug_python_test, { desc = "Debugger Debug Python Test" })
-map("n", "<leader>du", actions.toggle_dap_ui, { desc = "DAP Toggle UI" })
+map("n", "<leader>du", actions.toggle_dap_ui, { desc = "Debugger Toggle UI" })
 
 -- AI Agent
 map("n", "<leader>ac", "<cmd>CodeCompanionChat<CR>", {
-  desc = "AI Agent Open Chat",
+  desc = "AI Agent Open Chat",
   silent = true,
 })
 map("n", "<leader>at", "<cmd>CodeCompanionChat Toggle<CR>", {
-  desc = "AI Agent Toggle Chat",
+  desc = "AI Agent Toggle Chat",
   silent = true,
 })
 map("n", "<leader>ax", "<cmd>CodeCompanionActions<CR>", {
-  desc = "AI Agent Actions",
+  desc = "AI Agent Actions",
   silent = true,
 })
