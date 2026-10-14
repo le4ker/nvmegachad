@@ -5,6 +5,10 @@ require("nvchad.autocmds")
 vim.api.nvim_create_autocmd("VimEnter", {
   desc = "Open file tree on startup",
   callback = function()
-    require("nvim-tree.api").tree.toggle({ focus = false })
+    local api = require("nvim-tree.api")
+
+    if not api.tree.is_visible() then
+      api.tree.toggle({ focus = false })
+    end
   end,
 })
