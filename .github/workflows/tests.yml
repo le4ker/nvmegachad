@@ -11,15 +11,12 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        neovim: [v0.12.0]
     steps:
       - uses: actions/checkout@v4
 
       - uses: MunifTanjim/setup-neovim-action@v1
         with:
-          tag: ${{ matrix.neovim }}
+          tag: v0.12.0
 
       - run: make test
 
