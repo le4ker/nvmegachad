@@ -69,9 +69,9 @@ local function is_config_module(name)
     or name == "options"
     or name == "chadrc"
     or name == "autocmds"
-    or name:match("^configs\\.")
-    or name:match("^plugins\\.")
-    or name:match("^utils\\.")
+    or name:match("^configs%.")
+    or name:match("^plugins%.")
+    or name:match("^utils%.")
 end
 
 function M.run()

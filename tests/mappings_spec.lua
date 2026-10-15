@@ -38,7 +38,7 @@ T.test("every configured keybinding has a description", function()
   assert(ok, err)
 end)
 
-T.test("Dap commands used by mappings are declared by the DAP plugin", function()
+T.test("plugin commands used by mappings are declared or recognized", function()
   local maps, original_set, original = {}, vim.keymap.set, package.loaded.mappings
   vim.keymap.set = function(_, _, rhs)
     maps[#maps + 1] = rhs
@@ -46,15 +46,40 @@ T.test("Dap commands used by mappings are declared by the DAP plugin", function(
   package.loaded.mappings = nil
   local ok, err = pcall(function()
     require("mappings")
-    local commands = {}
-    for _, command in ipairs(require("plugins.dap").cmd) do
-      commands[command] = true
+    local commands = {
+      Lazy = { update = true },
+      Telescope = {
+        buffers = true,
+        find_files = true,
+        git_commits = true,
+        git_status = true,
+        live_grep = true,
+        terms = true,
+        themes = true,
+      },
+      NvimTreeFocus = true,
+      NvimTreeToggle = true,
+      MdKite = { toggle = true },
+      NvCheatsheet = true,
+      CodeCompanionChat = true,
+      CodeCompanionActions = true,
+    }
+    for _, plugin in ipairs({ "dap", "codecompanion" }) do
+      local spec = require("plugins." .. plugin)
+      for _, command in ipairs(spec.cmd or {}) do
+        commands[command] = true
+      end
     end
+    local core = { enew = true, noh = true, q = true, vsplit = true, w = true, y = true }
     for _, rhs in ipairs(maps) do
       if type(rhs) == "string" then
-        local command = rhs:match("<cmd>(Dap[%w]+)")
-        if command then
-          assert(commands[command], "missing DAP command: " .. command)
+        local command, subcommand = rhs:match("<cmd>([%w]+)%s*([%w_]*)")
+        if command and not core[command] then
+          local allowed = commands[command]
+          assert(allowed, "unrecognized mapped command: " .. command)
+          if type(allowed) == "table" then
+            assert(allowed[subcommand], "unrecognized " .. command .. " subcommand: " .. subcommand)
+          end
         end
       end
     end
