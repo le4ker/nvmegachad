@@ -2,6 +2,7 @@ name: Tests
 
 on:
   push:
+    branches: [main]
   pull_request:
 
 permissions:
@@ -10,11 +11,17 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        neovim: [v0.12.0]
     steps:
       - uses: actions/checkout@v4
 
       - uses: MunifTanjim/setup-neovim-action@v1
         with:
-          tag: v0.12.0
+          tag: ${{ matrix.neovim }}
 
       - run: make test
+
+      - run: cargo install stylua --locked
+      - run: stylua --check .

@@ -42,15 +42,7 @@ T.test("enabled LSP servers and configured linters are provided by Mason", funct
     for _, server in ipairs(enabled) do
       assert(mason[names[server]], "LSP package missing from Mason: " .. server)
     end
-    local lint_map = {
-      golangcilint = "golangci-lint",
-      markdownlint = "markdownlint",
-      pylint = "pylint",
-      shellcheck = "shellcheck",
-      checkmake = "checkmake",
-      tflint = "tflint",
-      hadolint = "hadolint",
-    }
+    local lint_map = { golangcilint = "golangci-lint" }
     local lint_config = require("configs.plugins.lint")
     local lint_stub = { linters_by_ft = {}, linters = { pylint = {} }, try_lint = function() end }
     T.with_modules({

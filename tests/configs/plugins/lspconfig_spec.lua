@@ -1,44 +1,52 @@
 local T = require("test_helper")
 
 T.test("LSP setup loads NvChad defaults, Blink capabilities, and the configured servers", function()
-  local original_config, original_enable = vim.lsp.config, vim.lsp.enable
   local default_calls, config_calls, enabled = 0, {}, nil
   local capabilities = { completion = true }
 
-  vim.lsp.config = function(name, opts)
+  T.stub(vim.lsp, "config", function(name, opts)
     config_calls[#config_calls + 1] = { name = name, opts = opts }
-  end
-  vim.lsp.enable = function(servers)
+  end)
+  T.stub(vim.lsp, "enable", function(servers)
     enabled = servers
-  end
-
-  local ok, err = pcall(function()
-    T.with_modules({
-      ["nvchad.configs.lspconfig"] = {
-        defaults = function()
-          default_calls = default_calls + 1
-        end,
-      },
-      ["blink.cmp"] = {
-        get_lsp_capabilities = function()
-          return capabilities
-        end,
-      },
-    }, function()
-      require("configs.plugins.lspconfig").setup()
-    end)
-
-    T.eq(default_calls, 1)
-    T.eq(config_calls[1].name, "*")
-    T.eq(config_calls[1].opts.capabilities, capabilities)
-    T.eq(
-      table.concat(enabled, ","),
-      "bashls,clangd,cssls,dockerls,gopls,html,jsonls,lua_ls,marksman,pyright,ruby_lsp,taplo,terraformls,ts_ls,vimls,yamlls"
-    )
   end)
 
-  vim.lsp.config, vim.lsp.enable = original_config, original_enable
-  assert(ok, err)
+  T.with_modules({
+    ["nvchad.configs.lspconfig"] = {
+      defaults = function()
+        default_calls = default_calls + 1
+      end,
+    },
+    ["blink.cmp"] = {
+      get_lsp_capabilities = function()
+        return capabilities
+      end,
+    },
+  }, function()
+    require("configs.plugins.lspconfig").setup()
+  end)
+
+  T.eq(default_calls, 1)
+  T.eq(config_calls[1].name, "*")
+  T.eq(config_calls[1].opts.capabilities, capabilities)
+  T.eq(enabled, {
+    "bashls",
+    "clangd",
+    "cssls",
+    "dockerls",
+    "gopls",
+    "html",
+    "jsonls",
+    "lua_ls",
+    "marksman",
+    "pyright",
+    "ruby_lsp",
+    "taplo",
+    "terraformls",
+    "ts_ls",
+    "vimls",
+    "yamlls",
+  })
 end)
 
 T.test("Pyright config uses a project Python when one is detected", function()
@@ -83,7 +91,6 @@ T.test("gopls config enables expected analysis and inlay hints", function()
   local settings = dofile("lsp/gopls.lua").settings.gopls
   T.eq(settings.completeUnimported, true)
   T.eq(settings.analyses.unusedparams, true)
-  T.eq(settings.hints.assignVariableTypes, true)
   for _, hint in ipairs({
     "assignVariableTypes",
     "compositeLiteralFields",
@@ -93,5 +100,4 @@ T.test("gopls config enables expected analysis and inlay hints", function()
   }) do
     T.eq(settings.hints[hint], true, "missing gopls hint: " .. hint)
   end
-  T.eq(settings.hints.rangeVariableTypes, true)
 end)

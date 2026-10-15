@@ -19,7 +19,7 @@ function M.test(name, fn)
 end
 
 function M.eq(actual, expected, message)
-  if actual ~= expected then
+  if not vim.deep_equal(actual, expected) then
     error(message or ("expected %s, got %s"):format(vim.inspect(expected), vim.inspect(actual)), 2)
   end
 end
@@ -32,19 +32,59 @@ function M.with_modules(modules, fn)
     package.loaded[name] = module
   end
 
-  local ok, err = pcall(fn)
+  local ok, err = xpcall(fn, debug.traceback)
   for _, name in ipairs(names) do
     package.loaded[name] = previous[name]
   end
-  assert(ok, err)
+  if not ok then
+    error(err, 0)
+  end
+end
+
+local function snapshot_globals()
+  local values = {}
+  for key, value in pairs(vim.g) do
+    values[key] = vim.deepcopy(value)
+  end
+  return values
+end
+
+local function restore_globals(values)
+  local current = {}
+  for key in pairs(vim.g) do
+    current[#current + 1] = key
+  end
+  for _, key in ipairs(current) do
+    if values[key] == nil then
+      vim.g[key] = nil
+    end
+  end
+  for key, value in pairs(values) do
+    vim.g[key] = value
+  end
 end
 
 function M.run()
+  assert(#M.cases > 0, "no tests registered")
   for _, case in ipairs(M.cases) do
-    local ok, err = pcall(case.run)
+    local globals = snapshot_globals()
+    local modules = {}
+    for name, module in pairs(package.loaded) do
+      modules[name] = module
+    end
+    local ok, err = xpcall(case.run, debug.traceback)
     for i = #M._stubs, 1, -1 do
       pcall(M._stubs[i])
       M._stubs[i] = nil
+    end
+    restore_globals(globals)
+    for name in pairs(package.loaded) do
+      if modules[name] == nil then
+        package.loaded[name] = nil
+      end
+    end
+    for name, module in pairs(modules) do
+      package.loaded[name] = module
     end
     if not ok then
       io.stderr:write(("FAIL: %s\n%s\n"):format(case.name, tostring(err)))
