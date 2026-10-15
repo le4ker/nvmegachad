@@ -103,6 +103,10 @@ T.test("mapping actions delegate inlay hints, buffers, terminals and DAP calls",
       end,
     })
   )
+  local notifications = {}
+  T.stub(vim, "notify", function(message)
+    notifications[#notifications + 1] = message
+  end)
   T.stub(vim.lsp, "inlay_hint", {
     is_enabled = function()
       return state
@@ -111,7 +115,6 @@ T.test("mapping actions delegate inlay hints, buffers, terminals and DAP calls",
       state = value
     end,
   })
-  T.stub(vim, "notify", function() end)
   local actions = require("utils.mapping_actions")
   T.with_modules({
     ["nvchad.tabufline"] = {
@@ -151,8 +154,10 @@ T.test("mapping actions delegate inlay hints, buffers, terminals and DAP calls",
   }, function()
     actions.toggle_inlay_hints()
     T.eq(state, true)
+    T.eq(notifications[1], "Inlay hints enabled")
     actions.toggle_inlay_hints()
     T.eq(state, false)
+    T.eq(notifications[2], "Inlay hints disabled")
     actions.close_terminal()
     T.eq(calls[#calls][1], 4)
     vim.bo = setmetatable({}, {

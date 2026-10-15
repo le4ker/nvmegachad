@@ -1,6 +1,21 @@
 local T = require("test_helper")
 
 T.test("options set the expected Neovim defaults and format-on-save toggle", function()
+  local saved = {
+    backup = vim.opt.backup:get(),
+    swapfile = vim.opt.swapfile:get(),
+    undofile = vim.opt.undofile:get(),
+    colorcolumn = vim.opt.colorcolumn:get(),
+    relativenumber = vim.opt.relativenumber:get(),
+    list = vim.opt.list:get(),
+    listchars = vim.opt.listchars:get(),
+    completeopt = vim.opt.completeopt:get(),
+  }
+  T.cleanup(function()
+    for name, value in pairs(saved) do
+      vim.opt[name] = value
+    end
+  end)
   T.stub(vim.g, "format_on_save", vim.g.format_on_save)
   T.with_modules({ ["nvchad.options"] = true }, function()
     dofile("lua/options.lua")
@@ -10,6 +25,11 @@ T.test("options set the expected Neovim defaults and format-on-save toggle", fun
   T.eq(tostring(vim.opt.swapfile:get()), "false")
   T.eq(tostring(vim.opt.undofile:get()), "true")
   T.eq(vim.opt.colorcolumn:get()[1], "100")
+  T.eq(vim.opt.relativenumber:get(), true)
+  T.eq(vim.opt.list:get(), true)
+  T.eq(vim.opt.listchars:get().tab, "➝ ")
+  T.eq(vim.opt.listchars:get().space, "·")
+  T.eq(table.concat(vim.opt.completeopt:get(), ","), "menuone,noselect,popup")
 end)
 
 T.test("tree, gitsigns, codecompanion, telescope and Blink options are configured", function()
@@ -69,8 +89,50 @@ T.test("treesitter installs parsers and starts highlighting on FileType", functi
     require("configs.plugins.treesitter").setup()
   end)
   T.eq(type(setup_opts), "table")
-  assert(vim.tbl_contains(installed, "lua"))
-  assert(vim.tbl_contains(installed, "typescript"))
+  T.eq(
+    table.concat(installed, ","),
+    table.concat({
+      "bash",
+      "c",
+      "cpp",
+      "css",
+      "csv",
+      "diff",
+      "dockerfile",
+      "go",
+      "gosum",
+      "gomod",
+      "git_config",
+      "gitignore",
+      "graphql",
+      "hcl",
+      "html",
+      "htmldjango",
+      "ini",
+      "javascript",
+      "json",
+      "lua",
+      "make",
+      "markdown",
+      "markdown_inline",
+      "mermaid",
+      "nginx",
+      "python",
+      "requirements",
+      "ruby",
+      "scss",
+      "sql",
+      "starlark",
+      "terraform",
+      "toml",
+      "tsx",
+      "typescript",
+      "vim",
+      "vimdoc",
+      "xml",
+      "yaml",
+    }, ",")
+  )
   T.eq(autocmd[1], "FileType")
   autocmd[2].callback({ buf = 17, match = "lua" })
   T.eq(table.concat(started, ","), "17,lua")

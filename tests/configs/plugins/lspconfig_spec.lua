@@ -84,5 +84,14 @@ T.test("gopls config enables expected analysis and inlay hints", function()
   T.eq(settings.completeUnimported, true)
   T.eq(settings.analyses.unusedparams, true)
   T.eq(settings.hints.assignVariableTypes, true)
+  for _, hint in ipairs({
+    "assignVariableTypes",
+    "compositeLiteralFields",
+    "compositeLiteralTypes",
+    "parameterNames",
+    "rangeVariableTypes",
+  }) do
+    T.eq(settings.hints[hint], true, "missing gopls hint: " .. hint)
+  end
   T.eq(settings.hints.rangeVariableTypes, true)
 end)

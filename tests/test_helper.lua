@@ -10,6 +10,10 @@ function M.stub(target, key, replacement)
   return original
 end
 
+function M.cleanup(fn)
+  M._stubs[#M._stubs + 1] = fn
+end
+
 function M.test(name, fn)
   M.cases[#M.cases + 1] = { name = name, run = fn }
 end
