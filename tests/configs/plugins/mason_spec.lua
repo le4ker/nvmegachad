@@ -34,6 +34,22 @@ T.test("Mason skips packages that are already installed", function()
   end)
 end)
 
+T.test("Mason setup accepts a missing ensure_installed list", function()
+  local refreshes = 0
+  with_mason_mocks({
+    refresh = function(callback)
+      refreshes = refreshes + 1
+      callback(true)
+    end,
+    get_package = function()
+      error("no package should be requested")
+    end,
+  }, function()
+    require("configs.plugins.mason").setup({})
+  end)
+  T.eq(refreshes, 1)
+end)
+
 T.test("Mason reports an install that closes without installing", function()
   local original_notify, original_schedule = vim.notify, vim.schedule
   local notifications, install_closed = {}, nil

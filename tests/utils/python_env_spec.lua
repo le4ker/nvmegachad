@@ -215,21 +215,20 @@ T.test("Python root detection uses git marker or start directory and accepts fil
     root,
     { venv_dir = true, executables = { [root .. "/.venv/bin/python"] = true } },
     function(paths)
-      local old_find, old_dirname, searched = vim.fs.find, vim.fs.dirname, nil
-      vim.fs.dirname = function(path)
+      local old_dirname, searched = vim.fs.dirname, nil
+      T.stub(vim.fs, "dirname", function(path)
         if path == root .. "/main.py" then
           return root
         end
         return old_dirname(path)
-      end
-      vim.fs.find = function(names, opts)
+      end)
+      T.stub(vim.fs, "find", function(names, opts)
         searched = opts.path
         return {}
-      end
+      end)
       local env = require("utils.python_env")
       T.eq(env.python_path(root .. "/main.py", false), paths.python)
       T.eq(searched, root)
-      vim.fs.find, vim.fs.dirname = old_find, old_dirname
     end
   )
 end)

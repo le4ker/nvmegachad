@@ -2,12 +2,11 @@ local T = require("test_helper")
 
 T.test("enabled LSP servers and configured linters are provided by Mason", function()
   local enabled = {}
-  local old_config, old_enable = vim.lsp.config, vim.lsp.enable
-  vim.lsp.config = function() end
-  vim.lsp.enable = function(servers)
+  T.stub(vim.lsp, "config", function() end)
+  T.stub(vim.lsp, "enable", function(servers)
     enabled = servers
-  end
-  local ok, err = pcall(function()
+  end)
+  do
     T.with_modules({
       ["nvchad.configs.lspconfig"] = { defaults = function() end },
       ["blink.cmp"] = {
@@ -62,29 +61,24 @@ T.test("enabled LSP servers and configured linters are provided by Mason", funct
         end,
       },
     }, function()
-      local old = vim.api.nvim_create_autocmd
-      vim.api.nvim_create_autocmd = function() end
+      T.stub(vim.api, "nvim_create_autocmd", function() end)
       lint_config.setup()
-      vim.api.nvim_create_autocmd = old
     end)
     for _, linters in pairs(lint_stub.linters_by_ft) do
       for _, linter in ipairs(linters) do
         assert(mason[lint_map[linter] or linter], "linter package missing from Mason: " .. linter)
       end
     end
-  end)
-  vim.lsp.config, vim.lsp.enable = old_config, old_enable
-  assert(ok, err)
+  end
 end)
 
 T.test("custom LSP files, disabled plugins and Mason tool lists are consistent", function()
   local enabled, seen = {}, {}
-  local original_config, original_enable = vim.lsp.config, vim.lsp.enable
-  vim.lsp.config = function() end
-  vim.lsp.enable = function(servers)
+  T.stub(vim.lsp, "config", function() end)
+  T.stub(vim.lsp, "enable", function(servers)
     enabled = servers
-  end
-  local ok, err = pcall(function()
+  end)
+  do
     T.with_modules({
       ["nvchad.configs.lspconfig"] = { defaults = function() end },
       ["blink.cmp"] = {
@@ -111,7 +105,5 @@ T.test("custom LSP files, disabled plugins and Mason tool lists are consistent",
       assert(not tools[tool], "duplicate Mason package: " .. tool)
       tools[tool] = true
     end
-  end)
-  vim.lsp.config, vim.lsp.enable = original_config, original_enable
-  assert(ok, err)
+  end
 end)
