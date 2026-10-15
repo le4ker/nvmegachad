@@ -1,5 +1,18 @@
 local T = require("test_helper")
 
+T.test("every plugin file returns a valid Lazy spec or list of specs", function()
+  for _, path in ipairs(vim.fn.glob("lua/plugins/*.lua", false, true)) do
+    local result = dofile(path)
+    assert(type(result) == "table", path .. " must return a table")
+    local specs = result[1] and type(result[1]) == "string" and { result } or result
+    assert(#specs > 0, path .. " returned no plugin specs")
+    for _, spec in ipairs(specs) do
+      assert(type(spec) == "table", path .. " contains a non-table plugin spec")
+      assert(type(spec[1]) == "string", path .. " spec is missing its plugin name")
+    end
+  end
+end)
+
 T.test("enabled LSP servers and configured linters are provided by Mason", function()
   local enabled = {}
   T.stub(vim.lsp, "config", function() end)

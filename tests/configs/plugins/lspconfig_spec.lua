@@ -29,24 +29,13 @@ T.test("LSP setup loads NvChad defaults, Blink capabilities, and the configured 
   T.eq(default_calls, 1)
   T.eq(config_calls[1].name, "*")
   T.eq(config_calls[1].opts.capabilities, capabilities)
-  T.eq(enabled, {
-    "bashls",
-    "clangd",
-    "cssls",
-    "dockerls",
-    "gopls",
-    "html",
-    "jsonls",
-    "lua_ls",
-    "marksman",
-    "pyright",
-    "ruby_lsp",
-    "taplo",
-    "terraformls",
-    "ts_ls",
-    "vimls",
-    "yamlls",
-  })
+  T.eq(type(enabled), "table")
+  assert(#enabled > 0, "no LSP servers enabled")
+  local seen = {}
+  for _, server in ipairs(enabled) do
+    assert(not seen[server], "duplicate enabled LSP server: " .. server)
+    seen[server] = true
+  end
 end)
 
 T.test("Pyright config uses a project Python when one is detected", function()

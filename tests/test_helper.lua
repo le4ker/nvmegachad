@@ -64,6 +64,16 @@ local function restore_globals(values)
   end
 end
 
+local function is_config_module(name)
+  return name == "mappings"
+    or name == "options"
+    or name == "chadrc"
+    or name == "autocmds"
+    or name:match("^configs\\.")
+    or name:match("^plugins\\.")
+    or name:match("^utils\\.")
+end
+
 function M.run()
   assert(#M.cases > 0, "no tests registered")
   for _, case in ipairs(M.cases) do
@@ -79,7 +89,7 @@ function M.run()
     end
     restore_globals(globals)
     for name in pairs(package.loaded) do
-      if modules[name] == nil then
+      if modules[name] == nil and is_config_module(name) then
         package.loaded[name] = nil
       end
     end

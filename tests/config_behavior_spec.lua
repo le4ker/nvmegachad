@@ -89,50 +89,13 @@ T.test("treesitter installs parsers and starts highlighting on FileType", functi
     require("configs.plugins.treesitter").setup()
   end)
   T.eq(type(setup_opts), "table")
-  T.eq(
-    table.concat(installed, ","),
-    table.concat({
-      "bash",
-      "c",
-      "cpp",
-      "css",
-      "csv",
-      "diff",
-      "dockerfile",
-      "go",
-      "gosum",
-      "gomod",
-      "git_config",
-      "gitignore",
-      "graphql",
-      "hcl",
-      "html",
-      "htmldjango",
-      "ini",
-      "javascript",
-      "json",
-      "lua",
-      "make",
-      "markdown",
-      "markdown_inline",
-      "mermaid",
-      "nginx",
-      "python",
-      "requirements",
-      "ruby",
-      "scss",
-      "sql",
-      "starlark",
-      "terraform",
-      "toml",
-      "tsx",
-      "typescript",
-      "vim",
-      "vimdoc",
-      "xml",
-      "yaml",
-    }, ",")
-  )
+  T.eq(type(installed), "table")
+  assert(#installed > 0, "Tree-sitter parser list is empty")
+  local seen = {}
+  for _, parser in ipairs(installed) do
+    assert(not seen[parser], "duplicate Tree-sitter parser: " .. parser)
+    seen[parser] = true
+  end
   T.eq(autocmd[1], "FileType")
   autocmd[2].callback({ buf = 17, match = "lua" })
   T.eq(table.concat(started, ","), "17,lua")

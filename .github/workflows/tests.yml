@@ -20,5 +20,8 @@ jobs:
 
       - run: make test
 
-      - run: cargo install stylua --locked
-      - run: stylua --check .
+      - uses: JohnnyMorganz/stylua-action@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          version: 2.6.0
+          args: --check .
