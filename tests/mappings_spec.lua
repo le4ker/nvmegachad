@@ -118,3 +118,48 @@ T.test("Tab and Shift-Tab retain buffer and completion behavior", function()
   package.loaded.mappings = original_mappings
   assert(ok, err)
 end)
+
+T.test("function mappings call the expected actions", function()
+  local maps = {}
+  T.stub(vim.keymap, "set", function(mode, lhs, rhs)
+    maps[mode .. " " .. lhs] = rhs
+  end)
+  package.loaded.mappings = nil
+  require("mappings")
+
+  local actions = require("utils.mapping_actions")
+  local expected = {
+    ["n <leader>mu"] = actions.update_mason_packages,
+    ["n <leader>tf"] = actions.toggle_format_on_save,
+    ["n <leader>ti"] = actions.toggle_inlay_hints,
+    ["n <tab>"] = actions.next_buffer,
+    ["n <S-tab>"] = actions.previous_buffer,
+    ["n <leader>x"] = actions.close_buffer,
+    ["n <leader>h"] = actions.new_horizontal_terminal,
+    ["t <ESC><ESC>"] = actions.close_terminal,
+    ["n gD"] = vim.lsp.buf.declaration,
+    ["n gd"] = vim.lsp.buf.definition,
+    ["n gi"] = vim.lsp.buf.implementation,
+    ["n gr"] = vim.lsp.buf.references,
+    ["n K"] = vim.lsp.buf.hover,
+    ["n <leader>rn"] = vim.lsp.buf.rename,
+    ["n <leader>ca"] = vim.lsp.buf.code_action,
+    ["n [d"] = actions.previous_diagnostic,
+    ["n ]d"] = actions.next_diagnostic,
+    ["n <leader>dgt"] = actions.debug_go_test,
+    ["n <leader>dgl"] = actions.debug_last_go_test,
+    ["n <leader>dpt"] = actions.debug_python_test,
+    ["n <leader>du"] = actions.toggle_dap_ui,
+  }
+
+  for key, action in pairs(expected) do
+    assert(type(action) == "function", "expected action is missing for " .. key)
+    assert(maps[key] == action, "mapping " .. key .. " does not call its expected action")
+  end
+  -- New function mappings must be added to the table above.
+  for key, rhs in pairs(maps) do
+    if type(rhs) == "function" then
+      assert(expected[key], "function mapping has no expected action: " .. key)
+    end
+  end
+end)
