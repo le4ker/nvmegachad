@@ -83,27 +83,8 @@ T.test(
   end
 )
 
-T.test("mapping actions delegate inlay hints, buffers, terminals and DAP calls", function()
-  local state, calls = false, {}
-  T.stub(vim.api, "nvim_get_current_buf", function()
-    return 8
-  end)
-  T.stub(vim.api, "nvim_get_current_win", function()
-    return 4
-  end)
-  T.stub(vim.api, "nvim_win_close", function(win, force)
-    calls[#calls + 1] = { win, force }
-  end)
-  T.stub(
-    vim,
-    "bo",
-    setmetatable({}, {
-      __index = function(_, buf)
-        return { buftype = buf == 8 and "terminal" or "" }
-      end,
-    })
-  )
-  local notifications = {}
+T.test("inlay hint action toggles the state and reports it", function()
+  local state, notifications = false, {}
   T.stub(vim, "notify", function(message)
     notifications[#notifications + 1] = message
   end)
@@ -116,74 +97,88 @@ T.test("mapping actions delegate inlay hints, buffers, terminals and DAP calls",
     end,
   })
   local actions = require("utils.mapping_actions")
+
+  actions.toggle_inlay_hints()
+  T.eq(state, true)
+  actions.toggle_inlay_hints()
+  T.eq(state, false)
+  T.eq(notifications, { "Inlay hints enabled", "Inlay hints disabled" })
+end)
+
+T.test("close_terminal force-closes the current window only for terminal buffers", function()
+  local buftype, closed = "terminal", {}
+  T.stub(vim.api, "nvim_get_current_buf", function()
+    return 8
+  end)
+  T.stub(vim.api, "nvim_get_current_win", function()
+    return 4
+  end)
+  T.stub(vim.api, "nvim_win_close", function(win, force)
+    closed[#closed + 1] = { win, force }
+  end)
+  T.stub(
+    vim,
+    "bo",
+    setmetatable({}, {
+      __index = function()
+        return { buftype = buftype }
+      end,
+    })
+  )
+  local actions = require("utils.mapping_actions")
+
+  actions.close_terminal()
+  T.eq(closed, { { 4, true } })
+
+  buftype = ""
+  actions.close_terminal()
+  T.eq(closed, { { 4, true } }, "a non-terminal window must stay open")
+end)
+
+T.test("new_horizontal_terminal opens a half-height split", function()
+  local opened = {}
   T.with_modules({
-    ["nvchad.tabufline"] = {
-      next = function()
-        calls[#calls + 1] = "next"
-      end,
-      prev = function()
-        calls[#calls + 1] = "prev"
-      end,
-      close_buffer = function()
-        calls[#calls + 1] = "buffer close"
-      end,
-    },
     ["nvchad.term"] = {
       new = function(opts)
-        calls[#calls + 1] = opts
-      end,
-    },
-    ["dap-go"] = {
-      debug_test = function()
-        calls[#calls + 1] = "go"
-      end,
-      debug_last_test = function()
-        calls[#calls + 1] = "last"
-      end,
-    },
-    ["dap-python"] = {
-      test_method = function()
-        calls[#calls + 1] = "python"
-      end,
-    },
-    dapui = {
-      toggle = function()
-        calls[#calls + 1] = "ui"
+        opened[#opened + 1] = opts
       end,
     },
   }, function()
-    actions.toggle_inlay_hints()
-    T.eq(state, true)
-    T.eq(notifications[1], "Inlay hints enabled")
-    actions.toggle_inlay_hints()
-    T.eq(state, false)
-    T.eq(notifications[2], "Inlay hints disabled")
-    actions.close_terminal()
-    T.eq(calls[#calls][1], 4)
-    vim.bo = setmetatable({}, {
-      __index = function()
-        return { buftype = "" }
-      end,
-    })
-    local closed = #calls
-    actions.close_terminal()
-    T.eq(#calls, closed)
-    actions.new_horizontal_terminal()
-    T.eq(calls[#calls].pos, "sp")
-    T.eq(calls[#calls].size, 0.5)
-    actions.next_buffer()
-    actions.previous_buffer()
-    actions.close_buffer()
-    actions.debug_go_test()
-    actions.debug_last_go_test()
-    actions.debug_python_test()
-    actions.toggle_dap_ui()
+    require("utils.mapping_actions").new_horizontal_terminal()
   end)
-  T.eq(calls[1][1], 4)
-  T.eq(calls[1][2], true)
-  T.eq(table.concat({ calls[2].pos, calls[2].size }, ","), "sp,0.5")
-  T.eq(
-    table.concat({ calls[3], calls[4], calls[5], calls[6], calls[7], calls[8], calls[9] }, ","),
-    "next,prev,buffer close,go,last,python,ui"
-  )
+  T.eq(opened, { { pos = "sp", size = 0.5 } })
 end)
+
+-- Replaces a dependency with a module that records the name of every function called on it,
+-- so each action is checked for calling exactly the expected function.
+local function recording_module()
+  local called = {}
+  local module = setmetatable({}, {
+    __index = function(_, name)
+      return function()
+        called[#called + 1] = name
+      end
+    end,
+  })
+  return module, called
+end
+
+local delegations = {
+  { action = "next_buffer", module = "nvchad.tabufline", fn = "next" },
+  { action = "previous_buffer", module = "nvchad.tabufline", fn = "prev" },
+  { action = "close_buffer", module = "nvchad.tabufline", fn = "close_buffer" },
+  { action = "debug_go_test", module = "dap-go", fn = "debug_test" },
+  { action = "debug_last_go_test", module = "dap-go", fn = "debug_last_test" },
+  { action = "debug_python_test", module = "dap-python", fn = "test_method" },
+  { action = "toggle_dap_ui", module = "dapui", fn = "toggle" },
+}
+
+for _, case in ipairs(delegations) do
+  T.test(("%s calls %s.%s"):format(case.action, case.module, case.fn), function()
+    local module, called = recording_module()
+    T.with_modules({ [case.module] = module }, function()
+      require("utils.mapping_actions")[case.action]()
+    end)
+    T.eq(called, { case.fn }, case.action .. " must call exactly " .. case.module .. "." .. case.fn)
+  end)
+end
