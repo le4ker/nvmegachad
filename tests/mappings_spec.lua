@@ -18,10 +18,23 @@ T.test("every configured keybinding has a description", function()
         type(mapping.opts.desc) == "string" and mapping.opts.desc ~= "",
         "mapping missing desc: " .. mapping.lhs
       )
-      for word in mapping.opts.desc:gmatch("%S+") do
-        assert(word:match("^%u[%w]*$"), "invalid mapping description: " .. mapping.opts.desc)
+      local words = vim.split(mapping.opts.desc, "%s+", { trimempty = true })
+      assert(
+        #words >= 3,
+        ("description of %s needs at least 3 words (Category Action Title), got %q"):format(
+          mapping.lhs,
+          mapping.opts.desc
+        )
+      )
+      for _, word in ipairs(words) do
+        assert(
+          word:match("^%u[%w]*$"),
+          ("description of %s has word %q; words must start with a capital letter and be alphanumeric"):format(
+            mapping.lhs,
+            word
+          )
+        )
       end
-      assert(select(2, mapping.opts.desc:gsub(" ", " ")) >= 2, "incomplete mapping description")
     end
     local seen = {}
     for _, mapping in ipairs(maps) do
