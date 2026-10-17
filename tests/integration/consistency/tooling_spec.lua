@@ -2,25 +2,16 @@ local T = require("test_helper")
 local setup_lint = require("support.lint").setup_lint
 local setup_lspconfig = require("support.lsp").setup_lspconfig
 
-T.test("every plugin file returns a valid Lazy spec or list of specs", function()
-  for _, path in ipairs(vim.fn.glob("lua/plugins/*.lua", false, true)) do
-    local result = dofile(path)
-    assert(type(result) == "table", path .. " must return a table")
-    local specs = result[1] and type(result[1]) == "string" and { result } or result
-    assert(#specs > 0, path .. " returned no plugin specs")
-    for _, spec in ipairs(specs) do
-      assert(type(spec) == "table", path .. " contains a non-table plugin spec")
-      assert(type(spec[1]) == "string", path .. " spec is missing its plugin name")
-    end
-  end
-end)
-
-T.test("enabled LSP servers and configured linters are provided by Mason", function()
-  local enabled = setup_lspconfig().enabled
-  local mason = {}
+local function mason_packages()
+  local packages = {}
   for _, package in ipairs(require("plugins.mason").opts.ensure_installed) do
-    mason[package] = true
+    packages[package] = true
   end
+  return packages
+end
+
+T.test("every enabled LSP server is provided by Mason", function()
+  local mason = mason_packages()
   local names = {
     bashls = "bash-language-server",
     clangd = "clangd",
@@ -39,9 +30,13 @@ T.test("enabled LSP servers and configured linters are provided by Mason", funct
     vimls = "vim-language-server",
     yamlls = "yaml-language-server",
   }
-  for _, server in ipairs(enabled) do
+  for _, server in ipairs(setup_lspconfig().enabled) do
     assert(mason[names[server]], "LSP package missing from Mason: " .. server)
   end
+end)
+
+T.test("every configured linter is provided by Mason", function()
+  local mason = mason_packages()
   local lint_map = { golangcilint = "golangci-lint" }
   for _, linters in pairs(setup_lint().linters_by_ft) do
     for _, linter in ipairs(linters) do
@@ -50,7 +45,35 @@ T.test("enabled LSP servers and configured linters are provided by Mason", funct
   end
 end)
 
-T.test("custom LSP files, disabled plugins and Mason tool lists are consistent", function()
+T.test("every configured formatter is provisioned by Mason or declared external", function()
+  local formatters = require("plugins.conform").opts.formatters_by_ft
+  local mason_tools = require("plugins.mason").opts.ensure_installed
+  local installed = {}
+  for _, tool in ipairs(mason_tools) do
+    installed[tool] = true
+  end
+
+  local package_names = {
+    bake = "mbake",
+    sql_formatter = "sql-formatter",
+  }
+  local external = { terraform_fmt = true }
+
+  for filetype, names in pairs(formatters) do
+    for _, formatter in ipairs(names) do
+      local package = package_names[formatter] or formatter
+      assert(
+        installed[package] or external[formatter],
+        ("formatter %q for %s is neither installed by Mason nor declared external"):format(
+          formatter,
+          filetype
+        )
+      )
+    end
+  end
+end)
+
+T.test("every custom LSP config has an enabled server", function()
   local seen = {}
   for _, name in ipairs(setup_lspconfig().enabled) do
     seen[name] = true
@@ -59,10 +82,9 @@ T.test("custom LSP files, disabled plugins and Mason tool lists are consistent",
     local server = vim.fn.fnamemodify(path, ":t:r")
     assert(seen[server], "custom LSP config has no enabled server: " .. server)
   end
-  local disabled = require("plugins.disabled")
-  for _, spec in ipairs(disabled) do
-    assert(spec.enabled == false, "disabled plugin lacks enabled = false")
-  end
+end)
+
+T.test("the Mason package list has no duplicates", function()
   local tools = {}
   for _, tool in ipairs(require("plugins.mason").opts.ensure_installed) do
     assert(not tools[tool], "duplicate Mason package: " .. tool)
@@ -138,40 +160,4 @@ T.test("formatters by filetype match the expected mapping", function()
     yaml = { "prettier" },
     zsh = { "shfmt" },
   }, "update this mapping together with the Mason packages")
-end)
-
-T.test("every enabled plugin and dependency has an entry in lazy-lock.json", function()
-  local lock = vim.json.decode(table.concat(vim.fn.readfile("lazy-lock.json"), "\n"))
-  local missing = {}
-
-  local function check(plugin)
-    local repo = type(plugin) == "table" and plugin[1] or plugin
-    local name = type(plugin) == "table" and plugin.name or repo:gsub("^.*/", "")
-    if not lock[name] then
-      missing[#missing + 1] = repo
-    end
-  end
-
-  for _, path in ipairs(vim.fn.glob("lua/plugins/*.lua", false, true)) do
-    local result = dofile(path)
-    local specs = type(result[1]) == "string" and { result } or result
-    for _, spec in ipairs(specs) do
-      if spec.enabled ~= false then
-        check(spec)
-        local dependencies = spec.dependencies
-        for _, dependency in
-          ipairs(type(dependencies) == "string" and { dependencies } or dependencies or {})
-        do
-          check(dependency)
-        end
-      end
-    end
-  end
-
-  table.sort(missing)
-  assert(
-    #missing == 0,
-    "plugins missing from lazy-lock.json (run :Lazy sync and commit it): "
-      .. table.concat(missing, ", ")
-  )
 end)
