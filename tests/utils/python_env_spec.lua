@@ -4,45 +4,31 @@ local with_environment = require("support.python_env").with_environment
 
 T.test("Python environment detection prefers a local venv with an executable Python", function()
   local python_env = require("utils.python_env")
-  local original_find = vim.fs.find
-  local original_executable = vim.fn.executable
-  local original_filereadable = vim.fn.filereadable
-  local original_isdirectory = vim.fn.isdirectory
-  local original_readfile = vim.fn.readfile
   local root = "/project"
   local project_file = root .. "/pyproject.toml"
   local venv = root .. "/.venv"
   local python = venv .. "/bin/python"
 
-  vim.fs.find = function(names)
+  T.stub(vim.fs, "find", function(names)
     if type(names) == "table" then
       return { project_file }
     end
     return {}
-  end
-  vim.fn.filereadable = function(path)
+  end)
+  T.stub(vim.fn, "filereadable", function(path)
     return path == project_file and 1 or 0
-  end
-  vim.fn.readfile = function()
+  end)
+  T.stub(vim.fn, "readfile", function()
     return {}
-  end
-  vim.fn.isdirectory = function(path)
+  end)
+  T.stub(vim.fn, "isdirectory", function(path)
     return path == venv and 1 or 0
-  end
-  vim.fn.executable = function(path)
+  end)
+  T.stub(vim.fn, "executable", function(path)
     return path == python and 1 or 0
-  end
+  end)
 
-  local ok, result = pcall(python_env.python_path, root, true)
-
-  vim.fs.find = original_find
-  vim.fn.executable = original_executable
-  vim.fn.filereadable = original_filereadable
-  vim.fn.isdirectory = original_isdirectory
-  vim.fn.readfile = original_readfile
-
-  assert(ok, result)
-  T.eq(result, python)
+  T.eq(python_env.python_path(root, true), python)
 end)
 
 T.test("Python environment detection prefers Poetry over a local venv", function()
@@ -115,16 +101,15 @@ T.test("Poetry environment lookup is cached once per project root", function()
     poetry_path = root .. "/poetry-env",
     executables = { poetry = true, [root .. "/poetry-env/bin/python"] = true },
   }, function(paths)
-    local old_system = vim.fn.system
-    vim.fn.system = function(...)
+    local old_system
+    old_system = T.stub(vim.fn, "system", function(...)
       calls = calls + 1
       return old_system(...)
-    end
+    end)
     local python_env = require("utils.python_env")
     T.eq(python_env.python_path(root, true), paths.poetry_python)
     T.eq(python_env.python_path(root, true), paths.poetry_python)
     T.eq(calls, 1)
-    vim.fn.system = old_system
   end)
 end)
 
@@ -188,15 +173,13 @@ T.test("Python root detection falls back to a git marker", function()
     root,
     { venv_dir = true, executables = { [root .. "/.venv/bin/python"] = true } },
     function(paths)
-      local old_find = vim.fs.find
-      vim.fs.find = function(names)
+      T.stub(vim.fs, "find", function(names)
         if names == ".git" then
           return { root .. "/.git" }
         end
         return {}
-      end
+      end)
       T.eq(require("utils.python_env").python_path(root .. "/nested", true), paths.python)
-      vim.fs.find = old_find
     end
   )
 end)
