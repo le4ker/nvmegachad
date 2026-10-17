@@ -29,7 +29,10 @@ local function with_environment(root, opts, callback)
       or 0
   end
   vim.fn.readfile = function()
-    return opts.poetry_header and { "[tool.poetry]" } or {}
+    if not opts.poetry_header then
+      return {}
+    end
+    return { opts.poetry_header == true and "[tool.poetry]" or opts.poetry_header }
   end
   vim.fn.isdirectory = function(path)
     if path == poetry_env then
@@ -263,4 +266,78 @@ T.test("Python root detection falls back to a git marker", function()
       vim.fs.find = old_find
     end
   )
+end)
+
+T.test("Poetry pyproject header tolerates surrounding whitespace", function()
+  local root = "/tests/poetry-header-whitespace"
+  with_environment(root, {
+    project = true,
+    poetry_header = "  [tool.poetry]  ",
+    poetry_env_dir = true,
+    poetry_path = root .. "/poetry-env",
+    executables = { poetry = true, [root .. "/poetry-env/bin/python"] = true },
+  }, function(paths)
+    T.eq(require("utils.python_env").python_path(root, true), paths.poetry_python)
+  end)
+end)
+
+T.test("other Poetry tables in pyproject.toml do not make a Poetry project", function()
+  local root = "/tests/poetry-subtable"
+  with_environment(root, {
+    project = true,
+    poetry_header = "[tool.poetry.dependencies]",
+    poetry_env_dir = true,
+    venv_dir = true,
+    poetry_path = root .. "/poetry-env",
+    executables = {
+      poetry = true,
+      [root .. "/poetry-env/bin/python"] = true,
+      [root .. "/.venv/bin/python"] = true,
+    },
+  }, function(paths)
+    T.eq(require("utils.python_env").python_path(root, true), paths.python)
+  end)
+end)
+
+T.test("an environment with both Python and Pylint wins over one with only Python", function()
+  local root = "/tests/pylint-preference"
+  with_environment(root, {
+    project = true,
+    poetry = true,
+    poetry_env_dir = true,
+    venv_dir = true,
+    poetry_path = root .. "/poetry-env",
+    executables = {
+      poetry = true,
+      [root .. "/poetry-env/bin/python"] = true,
+      [root .. "/.venv/bin/python"] = true,
+      [root .. "/.venv/bin/pylint"] = true,
+    },
+  }, function(paths)
+    local env = require("utils.python_env")
+    T.eq(env.python_path(root, true), paths.python)
+    T.eq(env.pylint_command(root, true), paths.pylint)
+  end)
+end)
+
+T.test("Windows uses the Scripts directory and .exe executables", function()
+  local has = vim.fn.has
+  T.stub(vim.fn, "has", function(feature)
+    if feature == "win32" then
+      return 1
+    end
+    return has(feature)
+  end)
+  local root = "/tests/windows-venv"
+  with_environment(root, {
+    venv_dir = true,
+    executables = {
+      [root .. "/.venv/Scripts/python.exe"] = true,
+      [root .. "/.venv/Scripts/pylint.exe"] = true,
+    },
+  }, function()
+    local env = require("utils.python_env")
+    T.eq(env.python_path(root, true), root .. "/.venv/Scripts/python.exe")
+    T.eq(env.pylint_command(root, true), root .. "/.venv/Scripts/pylint.exe")
+  end)
 end)
