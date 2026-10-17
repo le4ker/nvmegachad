@@ -1,16 +1,6 @@
 local T = require("test_helper")
 
-local function with_mason_mocks(registry, run)
-  local original_mason = package.loaded.mason
-  local original_registry = package.loaded["mason-registry"]
-  package.loaded.mason = { setup = function() end }
-  package.loaded["mason-registry"] = registry
-
-  local ok, err = pcall(run)
-  package.loaded.mason = original_mason
-  package.loaded["mason-registry"] = original_registry
-  assert(ok, err)
-end
+local with_mason_mocks = require("support.mason").with_mason_mocks
 
 T.test("Mason skips packages that are already installed", function()
   local install_calls = 0
