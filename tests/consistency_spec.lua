@@ -112,3 +112,100 @@ T.test("custom LSP files, disabled plugins and Mason tool lists are consistent",
     end
   end
 end)
+
+T.test("enabled LSP servers match the expected set", function()
+  local enabled
+  T.stub(vim.lsp, "config", function() end)
+  T.stub(vim.lsp, "enable", function(servers)
+    enabled = servers
+  end)
+  T.with_modules({
+    ["nvchad.configs.lspconfig"] = { defaults = function() end },
+    ["blink.cmp"] = {
+      get_lsp_capabilities = function()
+        return {}
+      end,
+    },
+  }, function()
+    require("configs.plugins.lspconfig").setup()
+  end)
+
+  local expected = {
+    "bashls",
+    "clangd",
+    "cssls",
+    "dockerls",
+    "gopls",
+    "html",
+    "jsonls",
+    "lua_ls",
+    "marksman",
+    "pyright",
+    "ruby_lsp",
+    "taplo",
+    "terraformls",
+    "ts_ls",
+    "vimls",
+    "yamlls",
+  }
+  table.sort(enabled)
+  T.eq(
+    enabled,
+    expected,
+    "update this list together with the enabled servers and their Mason packages"
+  )
+end)
+
+T.test("linters by filetype match the expected mapping", function()
+  local lint = { linters_by_ft = {}, linters = { pylint = {} }, try_lint = function() end }
+  T.with_modules({
+    lint = lint,
+    ["utils.python_env"] = {
+      pylint_command = function()
+        return "pylint"
+      end,
+    },
+  }, function()
+    T.stub(vim.api, "nvim_create_autocmd", function() end)
+    require("configs.plugins.lint").setup()
+  end)
+
+  T.eq(lint.linters_by_ft, {
+    dockerfile = { "hadolint" },
+    go = { "golangcilint" },
+    make = { "checkmake" },
+    markdown = { "markdownlint" },
+    python = { "pylint" },
+    sh = { "shellcheck" },
+    terraform = { "tflint" },
+  }, "update this mapping together with the Mason packages")
+end)
+
+T.test("formatters by filetype match the expected mapping", function()
+  T.eq(require("plugins.conform").opts.formatters_by_ft, {
+    c = { "clang-format" },
+    cpp = { "clang-format" },
+    css = { "prettier" },
+    dockerfile = { "dockerfmt" },
+    go = { "goimports" },
+    graphql = { "prettier" },
+    html = { "prettier" },
+    javascript = { "prettier" },
+    javascriptreact = { "prettier" },
+    json = { "prettier" },
+    lua = { "stylua" },
+    make = { "bake" },
+    markdown = { "prettier" },
+    python = { "isort", "black" },
+    ruby = { "rubocop" },
+    scss = { "prettier" },
+    sh = { "shfmt" },
+    sql = { "sql_formatter" },
+    terraform = { "terraform_fmt" },
+    toml = { "taplo" },
+    typescript = { "prettier" },
+    typescriptreact = { "prettier" },
+    yaml = { "prettier" },
+    zsh = { "shfmt" },
+  }, "update this mapping together with the Mason packages")
+end)
