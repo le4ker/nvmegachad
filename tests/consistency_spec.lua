@@ -209,3 +209,39 @@ T.test("formatters by filetype match the expected mapping", function()
     zsh = { "shfmt" },
   }, "update this mapping together with the Mason packages")
 end)
+
+T.test("every enabled plugin and dependency has an entry in lazy-lock.json", function()
+  local lock = vim.json.decode(table.concat(vim.fn.readfile("lazy-lock.json"), "\n"))
+  local missing = {}
+
+  local function check(plugin)
+    local repo = type(plugin) == "table" and plugin[1] or plugin
+    local name = type(plugin) == "table" and plugin.name or repo:gsub("^.*/", "")
+    if not lock[name] then
+      missing[#missing + 1] = repo
+    end
+  end
+
+  for _, path in ipairs(vim.fn.glob("lua/plugins/*.lua", false, true)) do
+    local result = dofile(path)
+    local specs = type(result[1]) == "string" and { result } or result
+    for _, spec in ipairs(specs) do
+      if spec.enabled ~= false then
+        check(spec)
+        local dependencies = spec.dependencies
+        for _, dependency in
+          ipairs(type(dependencies) == "string" and { dependencies } or dependencies or {})
+        do
+          check(dependency)
+        end
+      end
+    end
+  end
+
+  table.sort(missing)
+  assert(
+    #missing == 0,
+    "plugins missing from lazy-lock.json (run :Lazy sync and commit it): "
+      .. table.concat(missing, ", ")
+  )
+end)
