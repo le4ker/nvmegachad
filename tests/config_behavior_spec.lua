@@ -101,6 +101,28 @@ T.test("treesitter installs parsers and starts highlighting on FileType", functi
   T.eq(table.concat(started, ","), "17,lua")
 end)
 
+T.test("treesitter FileType callback ignores filetypes without a parser", function()
+  local callback
+  T.with_modules({
+    ["nvim-treesitter"] = { setup = function() end, install = function() end },
+  }, function()
+    T.stub(vim.api, "nvim_create_autocmd", function(_, opts)
+      callback = opts.callback
+    end)
+    require("configs.plugins.treesitter").setup()
+  end)
+
+  local buf = vim.api.nvim_create_buf(false, true)
+  T.cleanup(function()
+    vim.api.nvim_buf_delete(buf, { force = true })
+  end)
+  -- Without the pcall, opening such a file raises an error on every FileType event.
+  local ok = pcall(vim.treesitter.start, buf, "no_such_parser_language")
+  T.eq(ok, false, "precondition: starting Tree-sitter without a parser must fail")
+  local callback_ok, err = pcall(callback, { buf = buf, match = "no_such_parser_language" })
+  assert(callback_ok, "FileType callback must not raise for an unknown language: " .. tostring(err))
+end)
+
 T.test("VimEnter opens the tree without focus only when it is hidden", function()
   local autocmd, visible, toggles = nil, false, {}
   T.stub(vim.api, "nvim_create_autocmd", function(event, opts)
