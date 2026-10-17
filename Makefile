@@ -53,5 +53,5 @@ help:
 	@echo "  install         - Install dependencies for macOS"
 	@echo "  hooks           - Install commit-message and test pre-commit hooks"
 	@echo "  format          - Format Lua files with StyLua"
-	@echo "  test            - Run config helper tests"
+	@echo "  test            - Run config helper tests (SPEC=<substring> runs matching specs)"
 	@echo "  help            - Show this help message"

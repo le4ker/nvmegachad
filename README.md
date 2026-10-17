@@ -129,6 +129,17 @@ Run the isolated config helper tests with:
 make test
 ```
 
+Run only the specs whose path contains a substring with `SPEC`:
+
+```sh
+make test SPEC=python_env
+```
+
+Specs mirror the `lua/` tree: `lua/utils/python_env.lua` is covered by
+`tests/utils/python_env_spec.lua`. Checks that span several files, such as startup and the
+consistency of the plugin, Mason and tool lists, live in `tests/integration/`, and fakes shared
+between specs live in `tests/support/`.
+
 Install the local test and commit-message hooks with `make hooks`. The test
 suite also runs on every push and pull request in GitHub Actions.
 
