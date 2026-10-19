@@ -9,7 +9,6 @@ opt.colorcolumn = "100"
 opt.relativenumber = true
 opt.list = true
 opt.listchars = "tab:➝ ,lead:·,space:·,trail:·,nbsp:+,eol:¬"
-opt.completeopt = "menuone,noselect,popup"
 
 -- feature toggles
 vim.g.format_on_save = true

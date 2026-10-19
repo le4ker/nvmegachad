@@ -29,5 +29,4 @@ T.test("options set the expected Neovim defaults and format-on-save toggle", fun
   T.eq(vim.opt.list:get(), true)
   T.eq(vim.opt.listchars:get().tab, "➝ ")
   T.eq(vim.opt.listchars:get().space, "·")
-  T.eq(table.concat(vim.opt.completeopt:get(), ","), "menuone,noselect,popup")
 end)
